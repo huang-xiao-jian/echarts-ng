@@ -1,0 +1,22 @@
+{
+  "name": "echarts-ng",
+  "homepage": "https://github.com/bornkiller/echarts-ng",
+  "authors": [
+    "bornkiller <hjj491229492@hotmail.com>"
+  ],
+  "description": "Simple angularjs wrap for Baidu echarts.",
+  "main": "dist/echarts-ng.js",
+  "moduleType": [],
+  "keywords": [
+    "echarts",
+    "angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "echarts-ng",
+  "version": "0.1.0",
+  "description": "Simple angularjs wrap for Baidu echarts.",
+  "main": "dist/echarts-ng.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bornkiller/echarts-ng.git"
+  },
+  "keywords": [
+    "echarts",
+    "angular"
+  ],
+  "author": "bornkiller <hjj491229492@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bornkiller/echarts-ng/issues"
+  },
+  "homepage": "https://github.com/bornkiller/echarts-ng#readme"
+}
