@@ -156,7 +156,7 @@
           return;
         }
 
-        if (angular.isObject(option)) {
+        if (angular.isObject(option) && angular.isArray(option.series) && option.series.length) {
           instance.hideLoading();
           instance.setOption(option);
         } else {

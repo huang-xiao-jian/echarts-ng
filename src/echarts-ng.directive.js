@@ -47,11 +47,11 @@
           : instance.showLoading();
 
         $scope.$watchCollection('chart.config.title', function() {
-          instance.setOption(chart.config)
+          $echarts.updateEchartsInstance(identity, chart.config);
         });
 
         $scope.$watchCollection('chart.config.series', function() {
-          instance.setOption(chart.config)
+          $echarts.updateEchartsInstance(identity, chart.config);
         });
 
         $scope.$on('$destroy', function () {
