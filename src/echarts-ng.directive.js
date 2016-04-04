@@ -24,7 +24,8 @@
       restrict: 'A',
       scope: {
         echarts: '=',
-        config: '='
+        config: '=',
+        theme: '@'
       },
       bindToController: true,
       controller: function ($scope, $element) {
@@ -37,7 +38,7 @@
           throw new Error('Echarts Instance Identity Required');
         }
 
-        var instance = echarts.init(element);
+        var instance = chart.theme ? echarts.init(element, chart.theme) : echarts.init(element);
 
         instance.setOption(GLOBAL_OPTION);
         $echarts.registerEchartsInstance(identity, instance);
