@@ -25,6 +25,7 @@ build/Release
 
 # Dependency directory
 node_modules
+example/lib
 
 # Optional npm cache directory
 .npm
@@ -35,3 +36,5 @@ node_modules
 # Optional IDE/OSX
 .idea
 .DS_Store
+example
+

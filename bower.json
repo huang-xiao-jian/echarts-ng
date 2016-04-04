@@ -18,5 +18,10 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "angular": "~1.5.3",
+    "echarts": "~3.1.5",
+    "bootstrap": "~3.3.6"
+  }
 }
