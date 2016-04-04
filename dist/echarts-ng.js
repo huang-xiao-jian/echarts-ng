@@ -27,6 +27,11 @@
 
     // base echarts options
     ctx.GLOBAL_OPTION = {
+      title: {
+        left: 'center',
+        top: 'top',
+        padding: [20, 10, 10, 10]
+      },
       backgroundColor: 'rgba(255, 255, 255, .5)',
       legend: {
         left: 'center',
@@ -164,7 +169,7 @@
           return;
         }
 
-        if (angular.isObject(option)) {
+        if (angular.isObject(option) && angular.isArray(option.series) && option.series.length) {
           instance.hideLoading();
           instance.setOption(option);
         } else {
@@ -201,7 +206,8 @@
       restrict: 'A',
       scope: {
         echarts: '=',
-        config: '='
+        config: '=',
+        theme: '@'
       },
       bindToController: true,
       controller: function ($scope, $element) {
@@ -214,7 +220,7 @@
           throw new Error('Echarts Instance Identity Required');
         }
 
-        var instance = echarts.init(element);
+        var instance = chart.theme ? echarts.init(element, chart.theme) : echarts.init(element);
 
         instance.setOption(GLOBAL_OPTION);
         $echarts.registerEchartsInstance(identity, instance);
@@ -222,6 +228,14 @@
         angular.isObject(chart.config) && angular.isArray(chart.config.series)
           ? instance.setOption(chart.config)
           : instance.showLoading();
+
+        $scope.$watchCollection('chart.config.title', function() {
+          $echarts.updateEchartsInstance(identity, chart.config);
+        });
+
+        $scope.$watchCollection('chart.config.series', function() {
+          $echarts.updateEchartsInstance(identity, chart.config);
+        });
 
         $scope.$on('$destroy', function () {
           instance.clear();
