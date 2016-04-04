@@ -1,4 +1,4 @@
-(function (angular) {
+(function (angular, echarts) {
   "use strict";
 
   angular.module('echarts-ng').directive('echarts', echartsDirective);
@@ -55,4 +55,4 @@
       controllerAs: 'chart'
     }
   }
-})(angular);
+})(angular, echarts);
