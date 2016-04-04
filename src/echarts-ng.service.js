@@ -14,6 +14,11 @@
 
     // base echarts options
     ctx.GLOBAL_OPTION = {
+      title: {
+        left: 'center',
+        top: 'top',
+        padding: [20, 10, 10, 10]
+      },
       backgroundColor: 'rgba(255, 255, 255, .5)',
       legend: {
         left: 'center',
