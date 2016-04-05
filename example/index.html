@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=false, maximum-scale=1">
+  <title>echarts-ng example</title>
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+  <style>
+    .echarts-wrap {
+      height: 400px;
+    }
+  </style>
+</head>
+<body ng-app="example">
+
+<article class="container" ng-controller="ExampleCtrl">
+  <section class="row">
+    <div class="col-md-6 echarts-wrap" echarts="IDENTITY" config="distribution"></div>
+
+    <div class="col-md-6 echarts-wrap" echarts="GAUGE_ID" config="gauge"></div>
+  </section>
+</article>
+
+<script src="lib/angular/angular.js"></script>
+<script src="lib/echarts/dist/echarts.js"></script>
+<script src="echarts-ng.declare.js"></script>
+<script src="echarts-ng.service.js"></script>
+<script src="echarts-ng.directive.js"></script>
+<script src="echarts-ng.example.js"></script>
+</body>
+</html>
