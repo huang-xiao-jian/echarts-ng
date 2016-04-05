@@ -2,7 +2,8 @@
   "use strict";
 
   angular.module('example', ['echarts-ng'])
-    .controller('ExampleCtrl', ['$scope', '$interval', '$echarts', function($scope, $interval, $echarts) {
+    .controller('ExampleCtrl', ['$scope', '$interval', '$timeout', '$echarts', function($scope, $interval, $timeout, $echarts) {
+      $scope.showEchartsInstance = true;
       $scope.IDENTITY = $echarts.generateInstanceIdentity();
       $scope.distribution = {
         legend: {
@@ -68,6 +69,10 @@
       $interval(function() {
         $scope.gaugeData.value += 2;
         $echarts.updateEchartsInstance($scope.GAUGE_ID, $scope.gauge);
-      }, 800, 15);
+      }, 500, 10);
+
+      $timeout(function() {
+        $scope.showEchartsInstance = false;
+      }, 5000);
     }])
 })(angular);

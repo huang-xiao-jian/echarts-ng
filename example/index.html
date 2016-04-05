@@ -14,7 +14,7 @@
 <body ng-app="example">
 
 <article class="container" ng-controller="ExampleCtrl">
-  <section class="row">
+  <section class="row" ng-if="showEchartsInstance">
     <div class="col-md-6 echarts-wrap" echarts="IDENTITY" config="distribution"></div>
 
     <div class="col-md-6 echarts-wrap" echarts="GAUGE_ID" config="gauge"></div>
