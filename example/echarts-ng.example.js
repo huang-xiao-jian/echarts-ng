@@ -2,7 +2,7 @@
   "use strict";
 
   angular.module('example', ['echarts-ng'])
-    .controller('ExampleCtrl', ['$scope', '$echarts', function($scope, $echarts) {
+    .controller('ExampleCtrl', ['$scope', '$interval', '$echarts', function($scope, $interval, $echarts) {
       $scope.IDENTITY = $echarts.generateInstanceIdentity();
       $scope.distribution = {
         legend: {
@@ -49,6 +49,7 @@
       };
 
       $scope.GAUGE_ID = $echarts.generateInstanceIdentity();
+      $scope.gaugeData = {value: 55, name: '完成率'};
       $scope.gauge = {
         tooltip : {
           trigger: 'item',
@@ -59,9 +60,14 @@
             name: '业务指标',
             type: 'gauge',
             detail: {formatter:'{value}%'},
-            data: [{value: 50, name: '完成率'}]
+            data: [$scope.gaugeData]
           }
         ]
-      }
+      };
+
+      $interval(function() {
+        $scope.gaugeData.value += 2;
+        $echarts.updateEchartsInstance($scope.GAUGE_ID, $scope.gauge);
+      }, 800, 15);
     }])
 })(angular);
