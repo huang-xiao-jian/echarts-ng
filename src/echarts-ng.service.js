@@ -1,8 +1,8 @@
 (function (angular) {
   "use strict";
-
+  
   angular.module('echarts-ng').provider('$echarts', EchartsAssistanceProvider);
-
+  
   /**
    * @ngdoc service
    * @name echarts-ng.service:$echartsProvider
@@ -11,7 +11,7 @@
    */
   function EchartsAssistanceProvider() {
     var ctx = this;
-
+    
     // base echarts options
     ctx.GLOBAL_OPTION = {
       title: {
@@ -32,12 +32,12 @@
         }
       }
     };
-
+    
     // modify base echarts options
-    ctx.setGlobalOption = function(option) {
+    ctx.setGlobalOption = function (option) {
       angular.extend(ctx.GLOBAL_OPTION, option);
     };
-
+    
     /**
      * @ngdoc service
      * @name echarts-ng.service:$echarts
@@ -47,9 +47,9 @@
      *
      * @description - echarts-ng util method
      */
-    ctx.$get = ['$q', '$timeout', function($q, $timeout) {
+    ctx.$get = ['$q', '$timeout', function ($q, $timeout) {
       var assistance = {};
-
+      
       /**
        * @ngdoc property
        * @name echarts-ng.service:storage
@@ -65,9 +65,9 @@
       assistance.queryEchartsInstance = queryEchartsInstance;
       assistance.removeEchartsInstance = removeEchartsInstance;
       assistance.updateEchartsInstance = updateEchartsInstance;
-
+      
       return assistance;
-
+      
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -78,7 +78,7 @@
       function getEchartsGlobalOption() {
         return ctx.GLOBAL_OPTION;
       }
-
+      
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -91,7 +91,7 @@
       function generateInstanceIdentity() {
         return Math.random().toString(36).substr(2, 9);
       }
-
+      
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -102,7 +102,7 @@
       function registerEchartsInstance(identity, instance) {
         assistance.storage.set(identity, instance);
       }
-
+      
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -115,8 +115,8 @@
        */
       function queryEchartsInstance(identity) {
         var deferred = $q.defer();
-
-        $timeout(function() {
+        
+        $timeout(function () {
           if (assistance.storage.has(identity)) {
             deferred.resolve(assistance.storage.get(identity));
           } else {
@@ -124,10 +124,10 @@
             deferred.reject({errorDesc: 'Echarts Identity Not Registered, Please Verify The Process'});
           }
         }, 0);
-
+        
         return deferred.promise;
       }
-
+      
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -140,7 +140,7 @@
           assistance.storage.delete(identity);
         }
       }
-
+      
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -150,12 +150,12 @@
        */
       function updateEchartsInstance(identity, option) {
         var instance = assistance.storage.get(identity);
-
+        
         if (angular.isUndefined(instance)) {
           console.warning("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
-
+        
         if (angular.isObject(option) && angular.isArray(option.series) && option.series.length) {
           instance.hideLoading();
           instance.setOption(option);
