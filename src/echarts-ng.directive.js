@@ -57,7 +57,7 @@
 
         $scope.$on('$destroy', function () {
           instance.clear();
-          instance.dispatch();
+          instance.dispose();
           $echarts.removeEchartsInstance(identity);
         });
       },
