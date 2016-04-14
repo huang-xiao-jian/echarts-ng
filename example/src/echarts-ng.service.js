@@ -185,7 +185,7 @@
         var instance = assistance.storage.get(identity);
         
         if (angular.isUndefined(instance)) {
-          console.warning("The instance not registered. Probably the exception belongs to the directive wrap");
+          console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
         

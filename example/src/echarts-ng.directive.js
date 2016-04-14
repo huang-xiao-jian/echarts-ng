@@ -41,6 +41,7 @@
         var instance = chart.theme ? echarts.init(element, chart.theme) : echarts.init(element);
 
         instance.setOption(GLOBAL_OPTION);
+        console.log(instance.getOption());
         $echarts.registerEchartsInstance(identity, instance);
 
         angular.isObject(chart.config) && angular.isArray(chart.config.series)
