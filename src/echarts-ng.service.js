@@ -12,21 +12,29 @@
     this.storage = {};
   }
 
-  AdaptableMap.prototype.has = function(identity) {
+  AdaptableMap.prototype.has = function (identity) {
     return this.storage.hasOwnProperty(identity);
   };
 
-  AdaptableMap.prototype.get = function(identity) {
+  AdaptableMap.prototype.get = function (identity) {
     return this.storage[identity];
   };
 
-  AdaptableMap.prototype.set = function(identity, instance) {
+  AdaptableMap.prototype.set = function (identity, instance) {
     this.storage[identity] = instance;
   };
 
-  AdaptableMap.prototype.delete = function(identity) {
+  AdaptableMap.prototype.delete = function (identity) {
     delete this.storage[identity];
   };
+
+  Object.defineProperty(AdaptableMap.prototype, 'size', {
+    enumerable: true,
+    configurable: false,
+    get: function() {
+      return Object.keys(this.storage).length;
+    }
+  });
   
   /**
    * @ngdoc service
@@ -90,6 +98,8 @@
       assistance.queryEchartsInstance = queryEchartsInstance;
       assistance.removeEchartsInstance = removeEchartsInstance;
       assistance.updateEchartsInstance = updateEchartsInstance;
+      assistance.driftPaletteProperty = driftPaletteProperty;
+      assistance.driftEchartsPalette = driftEchartsPalette;
       
       return assistance;
       
@@ -185,7 +195,7 @@
         var instance = assistance.storage.get(identity);
         
         if (angular.isUndefined(instance)) {
-          console.warning("The instance not registered. Probably the exception belongs to the directive wrap");
+          console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
         
@@ -196,6 +206,44 @@
           instance.clear();
           instance.showLoading();
         }
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$echarts
+       * @name echarts-ng.service:$echarts#driftEchartsPalette
+       *
+       * @param {array} instance - the echarts instance
+       *
+       * @description - drift the palette, improve echarts appearance when multiple similar instance but can't implode
+       */
+      function driftEchartsPalette(instance) {
+        var option = instance.getOption()
+          , originPalette = angular.copy(option.color)
+          , palette = driftPaletteProperty(originPalette, assistance.storage.size);
+
+        instance.setOption({color: palette});
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$echarts
+       * @name echarts-ng.service:$echarts#driftPaletteProperty
+       *
+       * @param {array} palette - the palette which echarts make use of.
+       * @param {number} offset - the palette offset
+       *
+       * @description - implement for drift the palette
+       */
+      function driftPaletteProperty(palette, offset) {
+        var relative
+          , clip
+          , length = palette.length;
+
+        relative = offset < length ? offset : offset % length;
+        clip = palette.splice(0, relative);
+
+        return palette.concat(clip);
       }
     }];
   }
