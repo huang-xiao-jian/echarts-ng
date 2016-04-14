@@ -15,10 +15,9 @@
 
 <article class="container" ng-controller="ExampleCtrl">
   <section class="row">
-    <!--<div class="col-md-8 echarts-wrap" echarts="IDENTITY" config="distribution"></div>-->
-    <div class="col-md-10 echarts-wrap" ng-repeat="item in barExampleList" echarts="item.identity" config="item.config"></div>
+    <div class="col-md-6 echarts-wrap" ng-repeat="item in barExampleList" echarts="item.identity" config="item.config" drift="true"></div>
 
-    <!--<div class="col-md-6 echarts-wrap" echarts="GAUGE_ID" config="gauge"></div>-->
+    <div class="col-md-6 echarts-wrap" echarts="gauge.identity" config="gauge.config"></div>
   </section>
 </article>
 

@@ -22,7 +22,8 @@
           name: '联盟广告',
           type: 'bar',
           data: [220, 182, 191, 234, 290, 330, 310]
-        },
+        }
+        ,
         {
           name: '视频广告',
           type: 'bar',
@@ -40,37 +41,36 @@
         }
       ];
 
-      $scope.barExampleList = [0, 1, 2, 3].map(function(value) {
+      $scope.barExampleList = [0, 1, 2, 3].map(function (value) {
         return {
           identity: $echarts.generateInstanceIdentity(),
           config: {
             xAxis: xAxis,
             yAxis: yAxis,
-            series: [series[value], series[value + 1]]
+            series: [series[value]]
           }
         };
       });
 
-      //$scope.GAUGE_ID = $echarts.generateInstanceIdentity();
-      //$scope.gaugeData = {value: 55, name: '完成率'};
-      //$scope.gauge = {
-      //  tooltip: {
-      //    trigger: 'item',
-      //    formatter: "{a} <br/>{b} : {c}%"
-      //  },
-      //  series: [
-      //    {
-      //      name: '业务指标',
-      //      type: 'gauge',
-      //      detail: {formatter: '{value}%'},
-      //      data: [$scope.gaugeData]
-      //    }
-      //  ]
-      //};
+      $scope.gauge = {
+        identity: $echarts.generateInstanceIdentity(),
+        config: {
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c}%"
+          },
+          series: [{
+            name: '业务指标',
+            type: 'gauge',
+            detail: {formatter: '{value}%'},
+            data: [{value: 55, name: '完成率'}]
+          }]
+        }
+      };
 
-      //$interval(function () {
-      //  $scope.gaugeData.value += 2;
-      //  $echarts.updateEchartsInstance($scope.GAUGE_ID, $scope.gauge);
-      //}, 500, 10);
+      $timeout(function () {
+        $scope.gauge.config.series[0].data = [{value: 75, name: '完成率'}];
+        $echarts.updateEchartsInstance($scope.gauge.identity, $scope.gauge.config);
+      }, 800);
     }])
 })(angular);
