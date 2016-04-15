@@ -4,8 +4,9 @@ var gulp = require('gulp')
   , rename = require('gulp-rename')
   , browserSync = require('browser-sync').create();
 
-gulp.task('build', function() {
-  gulp.src(['src/echarts-ng.declare.js', 'src/echarts-ng-waterfall.service.js', 'src/echarts-ng.service.js', 'src/echarts-ng.directive.js'])
+gulp.task('build', function () {
+  gulp.src(['example/src/echarts-ng.declare.js', 'example/src/echarts-ng-waterfall.service.js', 'example/src/echarts-ng.service.js', 'example/src/echarts-ng.directive.js'])
+    .pipe(gulp.dest('src/'))
     .pipe(concat('echarts-ng.js'))
     .pipe(gulp.dest('dist/'))
     .pipe(uglify())
