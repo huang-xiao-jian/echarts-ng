@@ -22,5 +22,16 @@
           }]
         }
       };
+
+      $timeout(function() {
+        $echarts.updateEchartsInstance($scope.distribution.identity, {
+          waterfall: true,
+          series: [{
+            name: '生活费',
+            type: 'bar',
+            data: [400, 1000, 100, 400, 1100, 3000]
+          }]
+        })
+      }, 1200);
     }])
 })(angular);

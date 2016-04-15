@@ -88,7 +88,7 @@
      *
      * @description - echarts-ng util method
      */
-    ctx.$get = ['$q', '$timeout', function ($q, $timeout) {
+    ctx.$get = ['$q', '$timeout', '$waterfall', function ($q, $timeout, $waterfall) {
       var assistance = {};
       
       /**
@@ -195,21 +195,23 @@
        * @name echarts-ng.service:$echarts#updateEchartsInstance
        *
        * @param {string} identity - the identity generated before
-       * @param {object} option - the echarts adaptable option
+       * @param {object} config - the echarts adaptable option
        *
        * @description - update the instance, switch between loading and draw
        */
-      function updateEchartsInstance(identity, option) {
+      function updateEchartsInstance(identity, config) {
         var instance = assistance.storage.get(identity);
         
         if (angular.isUndefined(instance)) {
           console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
-        
-        if (angular.isObject(option) && angular.isArray(option.series) && option.series.length) {
+
+        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+
+        if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {
           instance.hideLoading();
-          instance.setOption(option);
+          instance.setOption(config);
         } else {
           instance.clear();
           instance.showLoading();
