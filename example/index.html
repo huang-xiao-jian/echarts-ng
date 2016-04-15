@@ -18,12 +18,13 @@
     <div class="col-md-6 echarts-wrap" echarts="gauge.identity" config="gauge.config"></div>
     <div class="col-md-6 echarts-wrap" echarts="distribution.identity" config="distribution.config"></div>
 
-    <div class="col-md-6 echarts-wrap" ng-repeat="item in barExampleList" echarts="item.identity" config="item.config" drift="true"></div>
+    <div class="col-md-6 echarts-wrap" ng-repeat="item in barExampleList" echarts="item.identity" config="item.config"></div>
   </section>
 </article>
 
 <script src="lib/angular/angular.js"></script>
 <script src="lib/echarts/dist/echarts.js"></script>
+<script src="lib/echarts/theme/macarons.js"></script>
 <script src="src/echarts-ng.declare.js"></script>
 <script src="src/echarts-ng.service.js"></script>
 <script src="src/echarts-ng.directive.js"></script>
