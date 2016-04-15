@@ -27,7 +27,7 @@
         config: '='
       },
       bindToController: true,
-      controller: function ($scope, $element) {
+      controller: ['$scope', '$element', function ($scope, $element) {
         var vm = this;
 
         var GLOBAL_OPTION = $echarts.getEchartsGlobalOption()
@@ -69,7 +69,7 @@
           instance.dispose();
           $echarts.removeEchartsInstance(identity);
         });
-      },
+      }],
       controllerAs: 'chart'
     }
   }
