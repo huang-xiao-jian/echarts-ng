@@ -60,6 +60,7 @@
     
     // base echarts options
     ctx.GLOBAL_OPTION = {
+      theme: 'macarons',
       title: {
         left: 'center',
         top: 'top',
@@ -287,37 +288,38 @@
       restrict: 'A',
       scope: {
         echarts: '=',
-        config: '=',
-        theme: '@'
+        config: '='
       },
       bindToController: true,
       controller: function ($scope, $element) {
+        var vm = this;
+
         var GLOBAL_OPTION = $echarts.getEchartsGlobalOption()
-          , chart = $scope.chart
-          , identity = chart.echarts
+          , identity = vm.echarts
+          , theme = GLOBAL_OPTION.theme
           , element = $element[0];
 
         if (!identity) {
           throw new Error('Echarts Instance Identity Required');
         }
 
-        var instance = chart.theme ? echarts.init(element, chart.theme) : echarts.init(element);
+        var instance = theme ? echarts.init(element, theme) : echarts.init(element);
 
         instance.setOption(GLOBAL_OPTION);
 
         $echarts.driftEchartsPalette(instance);
         $echarts.registerEchartsInstance(identity, instance);
 
-        angular.isObject(chart.config) && angular.isArray(chart.config.series)
-          ? instance.setOption(chart.config)
+        angular.isObject(vm.config) && angular.isArray(vm.config.series)
+          ? instance.setOption(vm.config)
           : instance.showLoading();
 
-        $scope.$watchCollection('chart.config.title', function () {
-          $echarts.updateEchartsInstance(identity, chart.config);
+        $scope.$watchCollection('vm.config.title', function () {
+          $echarts.updateEchartsInstance(identity, vm.config);
         });
 
-        $scope.$watchCollection('chart.config.series', function () {
-          $echarts.updateEchartsInstance(identity, chart.config);
+        $scope.$watchCollection('vm.config.series', function () {
+          $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$on('$destroy', function () {

@@ -47,6 +47,7 @@
     
     // base echarts options
     ctx.GLOBAL_OPTION = {
+      theme: 'macarons',
       title: {
         left: 'center',
         top: 'top',
