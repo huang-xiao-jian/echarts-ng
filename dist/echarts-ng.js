@@ -44,7 +44,7 @@
   Object.defineProperty(AdaptableMap.prototype, 'size', {
     enumerable: true,
     configurable: false,
-    get: function() {
+    get: function () {
       return Object.keys(this.storage).length;
     }
   });
@@ -65,6 +65,13 @@
         left: 'center',
         top: 'top',
         padding: [20, 10, 10, 10]
+      },
+      grid: {
+        top: '15%',
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true
       },
       backgroundColor: 'rgba(255, 255, 255, .5)',
       legend: {
@@ -94,7 +101,7 @@
      *
      * @description - echarts-ng util method
      */
-    ctx.$get = ['$q', '$timeout', function ($q, $timeout) {
+    ctx.$get = ['$q', '$timeout', '$waterfall', function ($q, $timeout, $waterfall) {
       var assistance = {};
       
       /**
@@ -114,7 +121,7 @@
       assistance.updateEchartsInstance = updateEchartsInstance;
       assistance.driftPaletteProperty = driftPaletteProperty;
       assistance.driftEchartsPalette = driftEchartsPalette;
-      
+
       return assistance;
       
       /**
@@ -201,21 +208,23 @@
        * @name echarts-ng.service:$echarts#updateEchartsInstance
        *
        * @param {string} identity - the identity generated before
-       * @param {object} option - the echarts adaptable option
+       * @param {object} config - the echarts adaptable option
        *
        * @description - update the instance, switch between loading and draw
        */
-      function updateEchartsInstance(identity, option) {
+      function updateEchartsInstance(identity, config) {
         var instance = assistance.storage.get(identity);
         
         if (angular.isUndefined(instance)) {
           console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
-        
-        if (angular.isObject(option) && angular.isArray(option.series) && option.series.length) {
+
+        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+
+        if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {
           instance.hideLoading();
-          instance.setOption(option);
+          instance.setOption(config);
         } else {
           instance.clear();
           instance.showLoading();
@@ -262,6 +271,155 @@
     }];
   }
 })(angular);
+(function (angular) {
+  "use strict";
+  
+  angular.module('echarts-ng').provider('$waterfall', WaterfallAssistanceProvider);
+  
+  /**
+   * @ngdoc service
+   * @name echarts-ng.service:$waterfallProvider
+   *
+   * @description - echarts-ng waterfall service
+   */
+  function WaterfallAssistanceProvider() {
+    var ctx = this;
+    
+    /**
+     * @ngdoc service
+     * @name echarts-ng.service:$waterfall
+     *
+     *
+     * @description - echarts-ng waterfall method
+     */
+    ctx.$get = [function () {
+      var waterfall = {};
+
+      waterfall.adaptWaterfallTooltip = adaptWaterfallTooltip;
+      waterfall.calculateWaterfallFlow = calculateWaterfallFlow;
+      waterfall.wrapWaterfallSeries = wrapWaterfallSeries;
+
+      return waterfall;
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$waterfall
+       * @name echarts-ng.service:$waterfall#adaptWaterfallTooltip
+       *
+       * @param {array} instance - the echarts instance
+       * @param {boolean} override - whether modify tooltip setting
+       *
+       * @description - adapt tooltip when transfer waterfall
+       */
+      function adaptWaterfallTooltip(instance, override) {
+        if (!override) return;
+
+        var setting = {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            },
+            formatter: '{a1}: <br/> {b1}: {c1}'
+          }
+        };
+
+        instance.setOption(setting);
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$waterfall
+       * @name echarts-ng.service:$waterfall#calculateWaterfallSummary
+       *
+       * @param {array} series - standard array
+       *
+       * @description - calculate array sum value
+       */
+      function calculateWaterfallSummary(series) {
+        return series.reduce(function (prev, value) {
+          return prev + value;
+        }, 0);
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$waterfall
+       * @name echarts-ng.service:$waterfall#calculateWaterfallHelper
+       *
+       * @param {array} flow - standard echarts series item data
+       *
+       * @description - calculate step stone series data
+       */
+      function calculateWaterfallFlow(flow) {
+        var staircase;
+        
+        staircase = flow.reduce(function (prev, value, index, origin) {
+          if (index > 0 && index < origin.length - 1) {
+            var end = index
+              , segment = origin.slice(0, end)
+              , sum = calculateWaterfallSummary(segment);
+            
+            prev.push(sum);
+          }
+          return prev;
+        }, []);
+        
+        staircase.unshift(0) && staircase.push(0);
+        
+        return staircase;
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$waterfall
+       * @name echarts-ng.service:$waterfall#wrapWaterfallSeries
+       *
+       * @param {object} config - the echarts instantiation configuration
+       * @param {boolean} override - whether adapt waterfall mode
+       *
+       * @description - transfer instance into waterfall mode
+       */
+      function wrapWaterfallSeries(config, override) {
+        if (!override || !angular.isArray(config.series) || config.series.length !== 1) return;
+
+        var target = config.series[0];
+        if (!angular.isArray(target.data)) return;
+
+        var extension = {
+          stack: 'waterfall',
+          label: {
+            normal: {
+              show: true,
+              position: 'inside'
+            }
+          }
+        };
+
+        angular.extend(target, extension);
+
+        var helper = {
+          name: 'helper',
+          type: 'bar',
+          stack: 'waterfall',
+          itemStyle: {
+            normal: {
+              barBorderColor: 'rgba(0,0,0,1)',
+              color: 'rgba(0,0,0,0)'
+            },
+            emphasis: {
+              barBorderColor: 'rgba(0,0,0,0)',
+              color: 'rgba(0,0,0,0)'
+            }
+          },
+          data: waterfall.calculateWaterfallFlow(target.data)
+        };
+
+        config.series = [helper, target];
+      }
+    }];
+  }
+})(angular);
 (function (angular, echarts) {
   "use strict";
 
@@ -281,8 +439,8 @@
    *
    * @description - simple angular directive wrap for echarts
    */
-  echartsDirective.$inject = ['$echarts'];
-  function echartsDirective($echarts) {
+  echartsDirective.$inject = ['$echarts', '$waterfall'];
+  function echartsDirective($echarts, $waterfall) {
     return {
       priority: 5,
       restrict: 'A',
@@ -296,6 +454,7 @@
 
         var GLOBAL_OPTION = $echarts.getEchartsGlobalOption()
           , identity = vm.echarts
+          , config = vm.config
           , theme = GLOBAL_OPTION.theme
           , element = $element[0];
 
@@ -310,16 +469,21 @@
         $echarts.driftEchartsPalette(instance);
         $echarts.registerEchartsInstance(identity, instance);
 
-        angular.isObject(vm.config) && angular.isArray(vm.config.series)
-          ? instance.setOption(vm.config)
+        $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
+        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+
+        angular.isObject(config) && angular.isArray(config.series)
+          ? instance.setOption(config)
           : instance.showLoading();
 
         $scope.$watchCollection('vm.config.title', function () {
-          $echarts.updateEchartsInstance(identity, vm.config);
+          $waterfall.wrapWaterfallSeries(config, config.waterfall);
+          $echarts.updateEchartsInstance(identity, config);
         });
 
         $scope.$watchCollection('vm.config.series', function () {
-          $echarts.updateEchartsInstance(identity, vm.config);
+          $waterfall.wrapWaterfallSeries(config, config.waterfall);
+          $echarts.updateEchartsInstance(identity, config);
         });
 
         $scope.$on('$destroy', function () {
