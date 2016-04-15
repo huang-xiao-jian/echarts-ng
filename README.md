@@ -19,6 +19,7 @@ A base global echarts option is necessary. I provide one like below:
 
 ```js
 {
+  theme: 'macarons',
   title: {
     left: 'center',
     top: 'top',
