@@ -53,6 +53,13 @@
         top: 'top',
         padding: [20, 10, 10, 10]
       },
+      grid: {
+        top: '15%',
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true
+      },
       backgroundColor: 'rgba(255, 255, 255, .5)',
       legend: {
         left: 'center',
