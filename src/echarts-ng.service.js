@@ -31,7 +31,7 @@
   Object.defineProperty(AdaptableMap.prototype, 'size', {
     enumerable: true,
     configurable: false,
-    get: function() {
+    get: function () {
       return Object.keys(this.storage).length;
     }
   });
@@ -52,6 +52,13 @@
         left: 'center',
         top: 'top',
         padding: [20, 10, 10, 10]
+      },
+      grid: {
+        top: '15%',
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true
       },
       backgroundColor: 'rgba(255, 255, 255, .5)',
       legend: {
@@ -101,7 +108,7 @@
       assistance.updateEchartsInstance = updateEchartsInstance;
       assistance.driftPaletteProperty = driftPaletteProperty;
       assistance.driftEchartsPalette = driftEchartsPalette;
-      
+
       return assistance;
       
       /**

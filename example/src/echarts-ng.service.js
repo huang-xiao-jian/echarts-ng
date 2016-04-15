@@ -31,7 +31,7 @@
   Object.defineProperty(AdaptableMap.prototype, 'size', {
     enumerable: true,
     configurable: false,
-    get: function() {
+    get: function () {
       return Object.keys(this.storage).length;
     }
   });
@@ -108,7 +108,7 @@
       assistance.updateEchartsInstance = updateEchartsInstance;
       assistance.driftPaletteProperty = driftPaletteProperty;
       assistance.driftEchartsPalette = driftEchartsPalette;
-      
+
       return assistance;
       
       /**

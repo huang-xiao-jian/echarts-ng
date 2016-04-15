@@ -17,8 +17,8 @@
    *
    * @description - simple angular directive wrap for echarts
    */
-  echartsDirective.$inject = ['$echarts'];
-  function echartsDirective($echarts) {
+  echartsDirective.$inject = ['$echarts', '$waterfall'];
+  function echartsDirective($echarts, $waterfall) {
     return {
       priority: 5,
       restrict: 'A',
@@ -32,6 +32,7 @@
 
         var GLOBAL_OPTION = $echarts.getEchartsGlobalOption()
           , identity = vm.echarts
+          , config = vm.config
           , theme = GLOBAL_OPTION.theme
           , element = $element[0];
 
@@ -46,16 +47,21 @@
         $echarts.driftEchartsPalette(instance);
         $echarts.registerEchartsInstance(identity, instance);
 
-        angular.isObject(vm.config) && angular.isArray(vm.config.series)
-          ? instance.setOption(vm.config)
+        $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
+        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+
+        angular.isObject(config) && angular.isArray(config.series)
+          ? instance.setOption(config)
           : instance.showLoading();
 
         $scope.$watchCollection('vm.config.title', function () {
-          $echarts.updateEchartsInstance(identity, vm.config);
+          $waterfall.wrapWaterfallSeries(config, config.waterfall);
+          $echarts.updateEchartsInstance(identity, config);
         });
 
         $scope.$watchCollection('vm.config.series', function () {
-          $echarts.updateEchartsInstance(identity, vm.config);
+          $waterfall.wrapWaterfallSeries(config, config.waterfall);
+          $echarts.updateEchartsInstance(identity, config);
         });
 
         $scope.$on('$destroy', function () {

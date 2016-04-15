@@ -13,12 +13,9 @@
 </head>
 <body ng-app="example">
 
-<article class="container" ng-controller="ExampleCtrl">
+<article class="container" ng-controller="WaterfallCtrl">
   <section class="row">
-    <div class="col-md-6 echarts-wrap" echarts="gauge.identity" config="gauge.config"></div>
     <div class="col-md-6 echarts-wrap" echarts="distribution.identity" config="distribution.config"></div>
-
-    <div class="col-md-6 echarts-wrap" ng-repeat="item in barExampleList" echarts="item.identity" config="item.config"></div>
   </section>
 </article>
 
@@ -29,6 +26,6 @@
 <script src="src/echarts-ng.service.js"></script>
 <script src="src/echarts-ng-waterfall.service.js"></script>
 <script src="src/echarts-ng.directive.js"></script>
-<script src="echarts-ng.example.js"></script>
+<script src="echarts-ng.waterfall.js"></script>
 </body>
 </html>
