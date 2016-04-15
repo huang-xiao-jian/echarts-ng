@@ -5,7 +5,7 @@ var gulp = require('gulp')
   , browserSync = require('browser-sync').create();
 
 gulp.task('build', function() {
-  gulp.src(['src/echarts-ng.declare.js', 'src/echarts-ng.service.js', 'src/echarts-ng-waterfall.service.js', 'src/echarts-ng.directive.js'])
+  gulp.src(['src/echarts-ng.declare.js', 'src/echarts-ng-waterfall.service.js', 'src/echarts-ng.service.js', 'src/echarts-ng.directive.js'])
     .pipe(concat('echarts-ng.js'))
     .pipe(gulp.dest('dist/'))
     .pipe(uglify())
