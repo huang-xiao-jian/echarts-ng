@@ -72,7 +72,7 @@
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$waterfall
-       * @name echarts-ng.service:$waterfall#calculateWaterfallHelper
+       * @name echarts-ng.service:$waterfall#calculateWaterfallFlow
        *
        * @param {array} flow - standard echarts series item data
        *
