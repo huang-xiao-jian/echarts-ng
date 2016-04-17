@@ -13,17 +13,19 @@
    * @restrict A
    *
    * @param {string} echarts - the instance assigned
+   * @param {string} echartsDimension - the instance container pixel ratio
    * @param {object} config  - echarts adaptable options
    *
    * @description - simple angular directive wrap for echarts
    */
-  echartsDirective.$inject = ['$echarts', '$waterfall'];
-  function echartsDirective($echarts, $waterfall) {
+  echartsDirective.$inject = ['$echarts', '$waterfall', '$dimension'];
+  function echartsDirective($echarts, $waterfall, $dimension) {
     return {
       priority: 5,
       restrict: 'A',
       scope: {
         echarts: '=',
+        echartsDimension: '=',
         config: '='
       },
       bindToController: true,
@@ -40,6 +42,8 @@
           throw new Error('Echarts Instance Identity Required');
         }
 
+        $dimension.adaptEchartsDimension($element, vm.echartsDimension);
+
         var instance = theme ? echarts.init(element, theme) : echarts.init(element);
 
         instance.setOption(GLOBAL_OPTION);
@@ -54,12 +58,19 @@
           ? instance.setOption(config)
           : instance.showLoading();
 
-        $scope.$watchCollection('vm.config.title', function () {
+        $scope.$watch('chart.echartsDimension', function(newDimension, oldDimension) {
+          if (!angular.equals(newDimension, oldDimension)) {
+            $dimension.adaptEchartsDimension($element, newDimension);
+            $dimension.synchronizeEchartsDimension(instance);
+          }
+        });
+
+        $scope.$watchCollection('chart.config.title', function () {
           $waterfall.wrapWaterfallSeries(config, config.waterfall);
           $echarts.updateEchartsInstance(identity, config);
         });
 
-        $scope.$watchCollection('vm.config.series', function () {
+        $scope.$watchCollection('chart.config.series', function () {
           $waterfall.wrapWaterfallSeries(config, config.waterfall);
           $echarts.updateEchartsInstance(identity, config);
         });
@@ -68,6 +79,7 @@
           instance.clear();
           instance.dispose();
           $echarts.removeEchartsInstance(identity);
+          $dimension.removeEchartsDimension($element);
         });
       }],
       controllerAs: 'chart'
