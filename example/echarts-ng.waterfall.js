@@ -5,6 +5,7 @@
     .controller('WaterfallCtrl', ['$scope', '$timeout', '$echarts', function ($scope, $timeout, $echarts) {
       $scope.distribution = {
         identity: $echarts.generateInstanceIdentity(),
+        dimension: '16:9',
         config: {
           xAxis: {
             type: 'category',

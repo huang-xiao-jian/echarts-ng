@@ -44,6 +44,7 @@
       $scope.barExampleList = [0, 1, 2, 3].map(function (value) {
         return {
           identity: $echarts.generateInstanceIdentity(),
+          dimension: '16:9',
           config: {
             xAxis: xAxis,
             yAxis: yAxis,
@@ -54,6 +55,7 @@
 
       $scope.gauge = {
         identity: $echarts.generateInstanceIdentity(),
+        dimension: '16:9',
         config: {
           tooltip: {
             trigger: 'item',
@@ -70,6 +72,7 @@
 
       $scope.distribution = {
         identity: $echarts.generateInstanceIdentity(),
+        dimension: '16:9',
         config: {
           tooltip : {
             trigger: 'item',

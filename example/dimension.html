@@ -2,18 +2,15 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <meta name="viewport" content="initial-scale=1, user-scalable=false, maximum-scale=1">
-  <title>echarts-ng example</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <title>echarts-ng dimension example</title>
   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
 </head>
 <body ng-app="example">
 
-<article class="container" ng-controller="ExampleCtrl">
+<article class="container" ng-controller="DimensionCtrl">
   <section class="row">
-    <div class="col-md-6 echarts-wrap" echarts="gauge.identity" echarts-dimension="gauge.dimension" config="gauge.config"></div>
     <div class="col-md-6 echarts-wrap" echarts="distribution.identity" echarts-dimension="distribution.dimension" config="distribution.config"></div>
-
-    <div class="col-md-6 echarts-wrap" ng-repeat="item in barExampleList" echarts="item.identity" echarts-dimension="item.dimension" config="item.config"></div>
   </section>
 </article>
 
@@ -25,6 +22,6 @@
 <script src="src/echarts-ng-dimension.service.js"></script>
 <script src="src/echarts-ng.service.js"></script>
 <script src="src/echarts-ng.directive.js"></script>
-<script src="echarts-ng.standard.js"></script>
+<script src="echarts-ng.dimension.js"></script>
 </body>
 </html>
