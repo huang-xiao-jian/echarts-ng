@@ -42,7 +42,7 @@
           throw new Error('Echarts Instance Identity Required');
         }
 
-        $dimension.adaptEchartsDimension($element, vm.echartsDimension);
+        $dimension.adaptEchartsDimension(element, vm.echartsDimension);
 
         var instance = theme ? echarts.init(element, theme) : echarts.init(element);
 
@@ -60,7 +60,7 @@
 
         $scope.$watch('chart.echartsDimension', function(newDimension, oldDimension) {
           if (!angular.equals(newDimension, oldDimension)) {
-            $dimension.adaptEchartsDimension($element, newDimension);
+            $dimension.adaptEchartsDimension(element, newDimension);
             $dimension.synchronizeEchartsDimension(instance);
           }
         });
@@ -79,7 +79,7 @@
           instance.clear();
           instance.dispose();
           $echarts.removeEchartsInstance(identity);
-          $dimension.removeEchartsDimension($element);
+          $dimension.removeEchartsDimension(element);
         });
       }],
       controllerAs: 'chart'

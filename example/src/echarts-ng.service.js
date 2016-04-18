@@ -208,7 +208,7 @@
         }
 
         $waterfall.wrapWaterfallSeries(config, config.waterfall);
-        $dimension.adjustEchartsDimension(instance.getDom(), config.series);
+        $dimension.adjustEchartsDimension(instance.getDom(), config.series, config.dynamic);
 
         if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {
           instance.hideLoading();
