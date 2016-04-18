@@ -25,6 +25,7 @@
               type: "category",
               data: ["条目A", "条目B", "条目C", "条目D", "条目E", "条目F", " 条目G", "条目H", "条目I"]
             },
+            dynamic: true,
             series: [{
               name: "专属统计",
               type: "bar",
@@ -43,6 +44,7 @@
               type: 'category',
               data: ["条目A", "条目B", "条目C"]
             },
+            dynamic: true,
             series: [{
               name: '专属统计',
               type: 'bar',
@@ -61,14 +63,11 @@
               type: 'category',
               data: ["条目A"]
             },
+            dynamic: true,
             series: [{
               name: '专属统计',
               type: 'bar',
               data: [22]
-            }, {
-              name: '专属统计A',
-              type: 'bar',
-              data: [18]
             }]
           }
         }
