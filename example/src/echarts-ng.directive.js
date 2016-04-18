@@ -66,13 +66,13 @@
         });
 
         $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.wrapWaterfallSeries(config, config.waterfall);
-          $echarts.updateEchartsInstance(identity, config);
+          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.wrapWaterfallSeries(config, config.waterfall);
-          $echarts.updateEchartsInstance(identity, config);
+          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$on('$destroy', function () {
