@@ -88,9 +88,9 @@
      *
      * @description - echarts-ng util method
      */
-    ctx.$get = ['$q', '$timeout', '$waterfall', function ($q, $timeout, $waterfall) {
+    ctx.$get = ['$q', '$timeout', '$waterfall', '$dimension', function ($q, $timeout, $waterfall, $dimension) {
       var assistance = {};
-      
+
       /**
        * @ngdoc property
        * @name echarts-ng.service:storage
@@ -110,7 +110,7 @@
       assistance.driftEchartsPalette = driftEchartsPalette;
 
       return assistance;
-      
+
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -121,7 +121,7 @@
       function getEchartsGlobalOption() {
         return ctx.GLOBAL_OPTION;
       }
-      
+
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -134,7 +134,7 @@
       function generateInstanceIdentity() {
         return Math.random().toString(36).substr(2, 9);
       }
-      
+
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -148,7 +148,7 @@
       function registerEchartsInstance(identity, instance) {
         assistance.storage.set(identity, instance);
       }
-      
+
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -161,7 +161,7 @@
        */
       function queryEchartsInstance(identity) {
         var deferred = $q.defer();
-        
+
         $timeout(function () {
           if (assistance.storage.has(identity)) {
             deferred.resolve(assistance.storage.get(identity));
@@ -170,10 +170,10 @@
             deferred.reject({errorDesc: 'Echarts Identity Not Registered, Please Verify The Process'});
           }
         }, 0);
-        
+
         return deferred.promise;
       }
-      
+
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -188,7 +188,7 @@
           assistance.storage.delete(identity);
         }
       }
-      
+
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$echarts
@@ -201,16 +201,18 @@
        */
       function updateEchartsInstance(identity, config) {
         var instance = assistance.storage.get(identity);
-        
+
         if (angular.isUndefined(instance)) {
           console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
 
         $waterfall.wrapWaterfallSeries(config, config.waterfall);
+        $dimension.adjustEchartsDimension(instance.getDom(), config.series, config.dynamic);
 
         if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {
           instance.hideLoading();
+          instance.resize();
           instance.setOption(config);
         } else {
           instance.clear();

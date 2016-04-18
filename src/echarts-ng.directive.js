@@ -42,7 +42,7 @@
           throw new Error('Echarts Instance Identity Required');
         }
 
-        $dimension.adaptEchartsDimension($element, vm.echartsDimension);
+        $dimension.adaptEchartsDimension(element, vm.echartsDimension);
 
         var instance = theme ? echarts.init(element, theme) : echarts.init(element);
 
@@ -60,26 +60,26 @@
 
         $scope.$watch('chart.echartsDimension', function(newDimension, oldDimension) {
           if (!angular.equals(newDimension, oldDimension)) {
-            $dimension.adaptEchartsDimension($element, newDimension);
+            $dimension.adaptEchartsDimension(element, newDimension);
             $dimension.synchronizeEchartsDimension(instance);
           }
         });
 
         $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.wrapWaterfallSeries(config, config.waterfall);
-          $echarts.updateEchartsInstance(identity, config);
+          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.wrapWaterfallSeries(config, config.waterfall);
-          $echarts.updateEchartsInstance(identity, config);
+          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$on('$destroy', function () {
           instance.clear();
           instance.dispose();
           $echarts.removeEchartsInstance(identity);
-          $dimension.removeEchartsDimension($element);
+          $dimension.removeEchartsDimension(element);
         });
       }],
       controllerAs: 'chart'
