@@ -114,6 +114,9 @@ $echarts.updateEchartsInstance($scope.DISTRIBUTION_ID, $scope.distribution);
 ## waterfall
 Since v0.2.5, waterfall has extreme limited support. series length must equal `1`, and whenver update instance, with setting `waterfall: true`.
 
+## Dynamic Height
+Since v0.2.10, dynamic height has extreme limited support, series type must `bar`,  with setting `dynamic: true`.
+
 ## distribution
 
 ```shell
