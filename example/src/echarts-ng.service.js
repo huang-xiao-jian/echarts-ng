@@ -207,7 +207,7 @@
           return;
         }
 
-        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallSeries(config, config.waterfall);
         $dimension.adjustEchartsDimension(instance.getDom(), config.series, config.dynamic);
 
         if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {

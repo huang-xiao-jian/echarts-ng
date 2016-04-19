@@ -52,7 +52,7 @@
         $echarts.registerEchartsInstance(identity, instance);
 
         $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallSeries(config, config.waterfall);
 
         angular.isObject(config) && angular.isArray(config.series)
           ? instance.setOption(config)
@@ -66,12 +66,12 @@
         });
 
         $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
           $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
           $echarts.updateEchartsInstance(identity, vm.config);
         });
 
