@@ -22,6 +22,7 @@ angular.module('application', ['echarts-ng']);
 ```js
 {
   theme: 'macarons',
+  driftPalette: true,
   title: {
     left: 'center',
     top: 'top',
@@ -112,6 +113,7 @@ $echarts.updateEchartsInstance($scope.DISTRIBUTION_ID, $scope.distribution);
 
 ## 调色板增强
 调色板为单实例方式，在实例内部依据顺序选取不同色调。但是不同实例之间并不遵循此原则。在多个类型相似，数据相似，却又无法合并为一个实例时，色彩效果说不上人性化。(此处仅为个人使用偏好)
+可以修改默认配置`driftPalette`来修改默认行为。
 
 原始效果
 
