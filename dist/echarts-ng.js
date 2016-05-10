@@ -29,15 +29,14 @@
      * @ngdoc service
      * @name echarts-ng.service:$waterfall
      *
-     *
-     * @description - echarts-ng waterfall method
+     * @description - echarts-ng waterfall helper
      */
     ctx.$get = [function () {
       var waterfall = {};
 
       waterfall.adaptWaterfallTooltip = adaptWaterfallTooltip;
       waterfall.calculateWaterfallFlow = calculateWaterfallFlow;
-      waterfall.wrapWaterfallSeries = wrapWaterfallSeries;
+      waterfall.adaptWaterfallSeries = adaptWaterfallSeries;
 
       return waterfall;
 
@@ -49,7 +48,7 @@
        * @param {array} instance - the echarts instance
        * @param {boolean} override - whether modify tooltip setting
        *
-       * @description - adapt tooltip when transfer waterfall
+       * @description - adapt tooltip when active waterfall transfer
        */
       function adaptWaterfallTooltip(instance, override) {
         if (!override) return;
@@ -113,14 +112,14 @@
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$waterfall
-       * @name echarts-ng.service:$waterfall#wrapWaterfallSeries
+       * @name echarts-ng.service:$waterfall#adaptWaterfallSeries
        *
        * @param {object} config - the echarts instantiation configuration
        * @param {boolean} override - whether adapt waterfall mode
        *
        * @description - transfer instance into waterfall mode
        */
-      function wrapWaterfallSeries(config, override) {
+      function adaptWaterfallSeries(config, override) {
         if (!override || !angular.isArray(config.series) || config.series.length !== 1) return;
 
         var target = config.series[0];
@@ -339,6 +338,7 @@
     // base echarts options
     ctx.GLOBAL_OPTION = {
       theme: 'macarons',
+      driftPalette: true,
       title: {
         left: 'center',
         top: 'top',
@@ -498,7 +498,7 @@
           return;
         }
 
-        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallSeries(config, config.waterfall);
         $dimension.adjustEchartsDimension(instance.getDom(), config.series, config.dynamic);
 
         if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {
@@ -517,15 +517,20 @@
        * @name echarts-ng.service:$echarts#driftEchartsPalette
        *
        * @param {array} instance - the echarts instance
+       * @param {boolean} driftPalette - whether active palette drift
        *
        * @description - drift the palette, improve echarts appearance when multiple similar instance but can't implode
        */
-      function driftEchartsPalette(instance) {
+      function driftEchartsPalette(instance, driftPalette) {
+        if (!driftPalette) return;
+
         var option = instance.getOption()
           , originPalette = angular.copy(option.color)
           , palette = driftPaletteProperty(originPalette, assistance.storage.size);
 
-        instance.setOption({color: palette});
+        $timeout(function() {
+          instance.setOption({color: palette});
+        }, 0);
       }
 
       /**
@@ -589,6 +594,7 @@
           , identity = vm.echarts
           , config = vm.config
           , theme = GLOBAL_OPTION.theme
+          , driftPalette = GLOBAL_OPTION.driftPalette
           , element = $element[0];
 
         if (!identity) {
@@ -601,17 +607,17 @@
 
         instance.setOption(GLOBAL_OPTION);
 
-        $echarts.driftEchartsPalette(instance);
+        $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
 
         $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallSeries(config, config.waterfall);
 
         angular.isObject(config) && angular.isArray(config.series)
           ? instance.setOption(config)
           : instance.showLoading();
 
-        $scope.$watch('chart.echartsDimension', function(newDimension, oldDimension) {
+        $scope.$watch('chart.echartsDimension', function (newDimension, oldDimension) {
           if (!angular.equals(newDimension, oldDimension)) {
             $dimension.adaptEchartsDimension(element, newDimension);
             $dimension.synchronizeEchartsDimension(instance);
@@ -619,12 +625,12 @@
         });
 
         $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
           $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
           $echarts.updateEchartsInstance(identity, vm.config);
         });
 

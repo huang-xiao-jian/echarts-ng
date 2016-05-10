@@ -16,15 +16,14 @@
      * @ngdoc service
      * @name echarts-ng.service:$waterfall
      *
-     *
-     * @description - echarts-ng waterfall method
+     * @description - echarts-ng waterfall helper
      */
     ctx.$get = [function () {
       var waterfall = {};
 
       waterfall.adaptWaterfallTooltip = adaptWaterfallTooltip;
       waterfall.calculateWaterfallFlow = calculateWaterfallFlow;
-      waterfall.wrapWaterfallSeries = wrapWaterfallSeries;
+      waterfall.adaptWaterfallSeries = adaptWaterfallSeries;
 
       return waterfall;
 
@@ -36,7 +35,7 @@
        * @param {array} instance - the echarts instance
        * @param {boolean} override - whether modify tooltip setting
        *
-       * @description - adapt tooltip when transfer waterfall
+       * @description - adapt tooltip when active waterfall transfer
        */
       function adaptWaterfallTooltip(instance, override) {
         if (!override) return;
@@ -100,14 +99,14 @@
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$waterfall
-       * @name echarts-ng.service:$waterfall#wrapWaterfallSeries
+       * @name echarts-ng.service:$waterfall#adaptWaterfallSeries
        *
        * @param {object} config - the echarts instantiation configuration
        * @param {boolean} override - whether adapt waterfall mode
        *
        * @description - transfer instance into waterfall mode
        */
-      function wrapWaterfallSeries(config, override) {
+      function adaptWaterfallSeries(config, override) {
         if (!override || !angular.isArray(config.series) || config.series.length !== 1) return;
 
         var target = config.series[0];

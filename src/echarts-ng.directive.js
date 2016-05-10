@@ -36,6 +36,7 @@
           , identity = vm.echarts
           , config = vm.config
           , theme = GLOBAL_OPTION.theme
+          , driftPalette = GLOBAL_OPTION.driftPalette
           , element = $element[0];
 
         if (!identity) {
@@ -48,17 +49,17 @@
 
         instance.setOption(GLOBAL_OPTION);
 
-        $echarts.driftEchartsPalette(instance);
+        $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
 
         $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.wrapWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallSeries(config, config.waterfall);
 
         angular.isObject(config) && angular.isArray(config.series)
           ? instance.setOption(config)
           : instance.showLoading();
 
-        $scope.$watch('chart.echartsDimension', function(newDimension, oldDimension) {
+        $scope.$watch('chart.echartsDimension', function (newDimension, oldDimension) {
           if (!angular.equals(newDimension, oldDimension)) {
             $dimension.adaptEchartsDimension(element, newDimension);
             $dimension.synchronizeEchartsDimension(instance);
@@ -66,12 +67,12 @@
         });
 
         $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
           $echarts.updateEchartsInstance(identity, vm.config);
         });
 
         $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.wrapWaterfallSeries(vm.config, vm.config.waterfall);
+          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
           $echarts.updateEchartsInstance(identity, vm.config);
         });
 
