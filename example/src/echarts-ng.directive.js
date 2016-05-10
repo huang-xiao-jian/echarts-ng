@@ -36,6 +36,7 @@
           , identity = vm.echarts
           , config = vm.config
           , theme = GLOBAL_OPTION.theme
+          , driftPalette = GLOBAL_OPTION.driftPalette
           , element = $element[0];
 
         if (!identity) {
@@ -48,7 +49,7 @@
 
         instance.setOption(GLOBAL_OPTION);
 
-        $echarts.driftEchartsPalette(instance);
+        $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
 
         $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
@@ -58,7 +59,7 @@
           ? instance.setOption(config)
           : instance.showLoading();
 
-        $scope.$watch('chart.echartsDimension', function(newDimension, oldDimension) {
+        $scope.$watch('chart.echartsDimension', function (newDimension, oldDimension) {
           if (!angular.equals(newDimension, oldDimension)) {
             $dimension.adaptEchartsDimension(element, newDimension);
             $dimension.synchronizeEchartsDimension(instance);

@@ -48,6 +48,7 @@
     // base echarts options
     ctx.GLOBAL_OPTION = {
       theme: 'macarons',
+      driftPalette: true,
       title: {
         left: 'center',
         top: 'top',
@@ -226,15 +227,20 @@
        * @name echarts-ng.service:$echarts#driftEchartsPalette
        *
        * @param {array} instance - the echarts instance
+       * @param {boolean} driftPalette - whether active palette drift
        *
        * @description - drift the palette, improve echarts appearance when multiple similar instance but can't implode
        */
-      function driftEchartsPalette(instance) {
+      function driftEchartsPalette(instance, driftPalette) {
+        if (!driftPalette) return;
+
         var option = instance.getOption()
           , originPalette = angular.copy(option.color)
           , palette = driftPaletteProperty(originPalette, assistance.storage.size);
 
-        instance.setOption({color: palette});
+        $timeout(function() {
+          instance.setOption({color: palette});
+        }, 0);
       }
 
       /**
