@@ -15,7 +15,6 @@
           yAxis: {
             type: 'value'
           },
-          //waterfall: true,
           series: [{
             name: '生活费',
             type: 'waterfall',
