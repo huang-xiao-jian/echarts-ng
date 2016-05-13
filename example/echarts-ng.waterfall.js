@@ -15,10 +15,10 @@
           yAxis: {
             type: 'value'
           },
-          waterfall: true,
+          //waterfall: true,
           series: [{
             name: '生活费',
-            type: 'bar',
+            type: 'waterfall',
             data: [300, 900, 200, 300, 1200, 2900]
           }]
         }
@@ -26,10 +26,9 @@
 
       $timeout(function() {
         $echarts.updateEchartsInstance($scope.distribution.identity, {
-          waterfall: true,
           series: [{
             name: '生活费',
-            type: 'bar',
+            type: 'waterfall',
             data: [400, 1000, 100, 400, 1100, 3000]
           }]
         })
