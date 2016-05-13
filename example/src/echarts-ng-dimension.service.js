@@ -15,25 +15,6 @@
     // service split hack, fix later
     ctx.initialCalculateHeight = '';
 
-    ctx.calculateDynamicDimension = function(series) {
-      var base = 45
-        , split = series.length
-        , length = series[0].data.length * split;
-
-      switch (true) {
-        case length < 5:
-          base = 60;
-          break;
-        case length >= 5 && length < 10:
-          base = 45;
-          break;
-        case length >= 10:
-          base = 35;
-          break;
-      }
-
-      return base * length + 'px';
-    };
     /**
      * @ngdoc service
      * @name echarts-ng.service:$dimension
@@ -43,12 +24,42 @@
     ctx.$get = [function () {
       var dimension = {};
 
+      dimension.calculateDynamicDimension = calculateDynamicDimension;
       dimension.adaptEchartsDimension = adaptEchartsDimension;
       dimension.removeEchartsDimension = removeEchartsDimension;
       dimension.synchronizeEchartsDimension = synchronizeEchartsDimension;
       dimension.adjustEchartsDimension = adjustEchartsDimension;
 
       return dimension;
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#calculateDynamicDimension
+       *
+       * @param {object} series - echarts instance config series
+       *
+       * @description - calculate dynamic element height
+       */
+      function calculateDynamicDimension(series) {
+        var base = 45
+          , split = series.length
+          , length = series[0].data.length * split;
+
+        switch (true) {
+          case length < 5:
+            base = 60;
+            break;
+          case length >= 5 && length < 10:
+            base = 45;
+            break;
+          case length >= 10:
+            base = 35;
+            break;
+        }
+
+        return base * length + 'px';
+      }
 
       /**
        * @ngdoc method
@@ -122,7 +133,7 @@
       function adjustEchartsDimension(element, series, dynamic) {
         if (!angular.isArray(series) || !angular.isObject(series[0]) || !angular.isArray(series[0].data)) return;
 
-        element.style.height = dynamic ? ctx.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
+        element.style.height = dynamic ? dimension.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
       }
     }];
   }
