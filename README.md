@@ -291,17 +291,16 @@ $scope.distribution = {
     yAxis: {
       type: 'value'
     },
-    waterfall: false,
     series: [{
       name: '生活费',
-      type: 'bar',
+      type: 'waterfall',
       data: [300, 900, 200, 300, 1200, 2900]
     }]
   }
 };
 ```
 
-需要注意的是`waterfall`配置选项，表示是否开启`waterfall`处理方式。瀑布流对`series`要求仅含有单项数据，且图表类型必须为`bar`，如上述代码所示。否则不会进行增强处理。
+瀑布流对`series`要求仅含有单项数据，且图表类型必须为`waterfall`，表示开启`waterfall`处理方式。如上述代码所示。否则不会进行增强处理。
 
 未开启瀑布流效果如下所示：
 
