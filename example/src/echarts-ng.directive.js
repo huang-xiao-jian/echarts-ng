@@ -52,8 +52,8 @@
         $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
 
-        $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.adaptWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallTooltip(instance, config);
+        $waterfall.adaptWaterfallSeries(config);
 
         angular.isObject(config) && angular.isArray(config.series)
           ? instance.setOption(config)
