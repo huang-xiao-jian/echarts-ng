@@ -25,6 +25,7 @@
       var dimension = {};
 
       dimension.calculateDynamicDimension = calculateDynamicDimension;
+      dimension.calculateEchartsDimension = calculateEchartsDimension;
       dimension.adaptEchartsDimension = adaptEchartsDimension;
       dimension.removeEchartsDimension = removeEchartsDimension;
       dimension.synchronizeEchartsDimension = synchronizeEchartsDimension;
@@ -71,7 +72,7 @@
        *
        * @description - adapt element dimension
        */
-      function adaptEchartsDimension(element, dimension) {
+      function calculateEchartsDimension(element, dimension) {
         if (!angular.isString(dimension)) {
           console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
           return;
@@ -89,6 +90,20 @@
         width = element.clientWidth;
         height = width * ratio[0] / ratio[1];
 
+        return height;
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#adaptEchartsDimension
+       *
+       * @param {object} element - echarts instance container html element
+       * @param {number} height - echarts instance container inline element height
+       *
+       * @description - adapt echarts dimension, add inline height when element not specific
+       */
+      function adaptEchartsDimension(element, height) {
         ctx.initialCalculateHeight = height + 'px';
         element.style.height = height + 'px';
       }
