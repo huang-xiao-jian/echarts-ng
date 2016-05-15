@@ -22,6 +22,7 @@ module.exports = function(config) {
       'example/src/echarts-ng.declare.js',
       'example/src/echarts-ng-waterfall.service.js',
       'example/src/echarts-ng-dimension.service.js',
+      'example/src/echarts-ng.service.js',
       'example/src/echarts-ng.directive.js',
       'test/**/*.spec.js'
     ],
