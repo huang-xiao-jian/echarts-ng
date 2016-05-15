@@ -254,6 +254,8 @@
        * @description - implement for drift the palette
        */
       function driftPaletteProperty(palette, offset) {
+        palette = angular.copy(palette);
+        
         var relative
           , clip
           , length = palette.length;
