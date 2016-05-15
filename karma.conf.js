@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'example/lib/jquery/dist/jquery.js',
       'example/lib/echarts/dist/echarts.js',
       'example/lib/angular/angular.js',
       'example/lib/angular-mocks/angular-mocks.js',
