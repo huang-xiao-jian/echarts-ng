@@ -320,10 +320,9 @@ $scope.distribution = {
 
 ```js
 $echarts.updateEchartsInstance($scope.distribution.identity, {
-  waterfall: true,
   series: [{
     name: '生活费',
-    type: 'bar',
+    type: 'waterfall',
     data: [400, 1000, 100, 400, 1100, 3000]
   }]
 })
