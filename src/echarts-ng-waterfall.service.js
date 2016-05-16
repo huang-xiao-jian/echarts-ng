@@ -126,7 +126,9 @@
        * @description - transfer instance into waterfall mode
        */
       function adaptWaterfallSeries(config) {
-        if (!waterfall.shouldAdaptWaterfall(config)) return;
+        if (!waterfall.shouldAdaptWaterfall(config)) return config;
+
+        config = angular.copy(config);
 
         var target = config.series[0]
           , extension = {
@@ -160,6 +162,8 @@
         };
 
         config.series = [helper, target];
+
+        return config;
       }
     }];
   }
