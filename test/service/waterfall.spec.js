@@ -70,7 +70,6 @@ describe('echarts-ng waterfall service', function () {
       }]
     };
 
-    $waterfall.adaptWaterfallSeries(original);
-    expect(original).toEqual(target);
+    expect($waterfall.adaptWaterfallSeries(original)).toEqual(target);
   });
 });
