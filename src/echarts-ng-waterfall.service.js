@@ -21,7 +21,9 @@
     ctx.$get = [function () {
       var waterfall = {};
 
+      waterfall.shouldAdaptWaterfall = shouldAdaptWaterfall;
       waterfall.adaptWaterfallTooltip = adaptWaterfallTooltip;
+      waterfall.calculateWaterfallSummary = calculateWaterfallSummary;
       waterfall.calculateWaterfallFlow = calculateWaterfallFlow;
       waterfall.adaptWaterfallSeries = adaptWaterfallSeries;
 
@@ -30,15 +32,33 @@
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$waterfall
-       * @name echarts-ng.service:$waterfall#adaptWaterfallTooltip
+       * @name echarts-ng.service:$waterfall#shouldAdaptWaterfall
        *
-       * @param {array} instance - the echarts instance
-       * @param {boolean} override - whether modify tooltip setting
+       * @param {object} config - the echarts instance
+       * @return {boolean} - whether active waterfall adapt
        *
        * @description - adapt tooltip when active waterfall transfer
        */
-      function adaptWaterfallTooltip(instance, override) {
-        if (!override) return;
+      function shouldAdaptWaterfall(config) {
+        if (!angular.isArray(config.series) || config.series.length !== 1) return false;
+
+        var target = config.series[0];
+
+        return (angular.isArray(target.data) && angular.equals(target.type, 'waterfall'));
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$waterfall
+       * @name echarts-ng.service:$waterfall#adaptWaterfallTooltip
+       *
+       * @param {object} instance - the echarts instance
+       * @param {object} config - the echarts instance configuration
+       *
+       * @description - adapt tooltip when active waterfall transfer
+       */
+      function adaptWaterfallTooltip(instance, config) {
+        if (!waterfall.shouldAdaptWaterfall(config)) return;
 
         var setting = {
           tooltip: {
@@ -102,25 +122,23 @@
        * @name echarts-ng.service:$waterfall#adaptWaterfallSeries
        *
        * @param {object} config - the echarts instantiation configuration
-       * @param {boolean} override - whether adapt waterfall mode
        *
        * @description - transfer instance into waterfall mode
        */
-      function adaptWaterfallSeries(config, override) {
-        if (!override || !angular.isArray(config.series) || config.series.length !== 1) return;
+      function adaptWaterfallSeries(config) {
+        if (!waterfall.shouldAdaptWaterfall(config)) return;
 
-        var target = config.series[0];
-        if (!angular.isArray(target.data)) return;
-
-        var extension = {
-          stack: 'waterfall',
-          label: {
-            normal: {
-              show: true,
-              position: 'inside'
+        var target = config.series[0]
+          , extension = {
+            stack: 'waterfall',
+            type: 'bar',
+            label: {
+              normal: {
+                show: true,
+                position: 'inside'
+              }
             }
-          }
-        };
+          };
 
         angular.extend(target, extension);
 

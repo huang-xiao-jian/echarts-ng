@@ -37,13 +37,14 @@
           , config = vm.config
           , theme = GLOBAL_OPTION.theme
           , driftPalette = GLOBAL_OPTION.driftPalette
-          , element = $element[0];
+          , element = $element[0]
+          , calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
 
         if (!identity) {
           throw new Error('Echarts Instance Identity Required');
         }
 
-        $dimension.adaptEchartsDimension(element, vm.echartsDimension);
+        $dimension.adaptEchartsDimension(element, calculateHeight);
 
         var instance = theme ? echarts.init(element, theme) : echarts.init(element);
 
@@ -52,8 +53,8 @@
         $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
 
-        $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.adaptWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallTooltip(instance, config);
+        $waterfall.adaptWaterfallSeries(config);
 
         angular.isObject(config) && angular.isArray(config.series)
           ? instance.setOption(config)

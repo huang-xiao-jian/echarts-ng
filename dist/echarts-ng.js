@@ -1,3 +1,41 @@
+(function (window) {
+  "use strict";
+
+  window.EchartsDecorativeMap = Map || AdaptableMap;
+
+  /**
+   * @constructor AdaptableMap
+   *
+   * @description - simple shim for ES6 Map, Do Not Use It directly
+   */
+  function AdaptableMap() {
+    this.storage = {};
+  }
+
+  AdaptableMap.prototype.has = function (identity) {
+    return this.storage.hasOwnProperty(identity);
+  };
+
+  AdaptableMap.prototype.get = function (identity) {
+    return this.storage[identity];
+  };
+
+  AdaptableMap.prototype.set = function (identity, instance) {
+    this.storage[identity] = instance;
+  };
+
+  AdaptableMap.prototype.delete = function (identity) {
+    delete this.storage[identity];
+  };
+
+  Object.defineProperty(AdaptableMap.prototype, 'size', {
+    enumerable: true,
+    configurable: false,
+    get: function () {
+      return Object.keys(this.storage).length;
+    }
+  });
+})(window);
 (function (angular) {
   "use strict";
 
@@ -34,7 +72,9 @@
     ctx.$get = [function () {
       var waterfall = {};
 
+      waterfall.shouldAdaptWaterfall = shouldAdaptWaterfall;
       waterfall.adaptWaterfallTooltip = adaptWaterfallTooltip;
+      waterfall.calculateWaterfallSummary = calculateWaterfallSummary;
       waterfall.calculateWaterfallFlow = calculateWaterfallFlow;
       waterfall.adaptWaterfallSeries = adaptWaterfallSeries;
 
@@ -43,15 +83,33 @@
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$waterfall
-       * @name echarts-ng.service:$waterfall#adaptWaterfallTooltip
+       * @name echarts-ng.service:$waterfall#shouldAdaptWaterfall
        *
-       * @param {array} instance - the echarts instance
-       * @param {boolean} override - whether modify tooltip setting
+       * @param {object} config - the echarts instance
+       * @return {boolean} - whether active waterfall adapt
        *
        * @description - adapt tooltip when active waterfall transfer
        */
-      function adaptWaterfallTooltip(instance, override) {
-        if (!override) return;
+      function shouldAdaptWaterfall(config) {
+        if (!angular.isArray(config.series) || config.series.length !== 1) return false;
+
+        var target = config.series[0];
+
+        return (angular.isArray(target.data) && angular.equals(target.type, 'waterfall'));
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$waterfall
+       * @name echarts-ng.service:$waterfall#adaptWaterfallTooltip
+       *
+       * @param {object} instance - the echarts instance
+       * @param {object} config - the echarts instance configuration
+       *
+       * @description - adapt tooltip when active waterfall transfer
+       */
+      function adaptWaterfallTooltip(instance, config) {
+        if (!waterfall.shouldAdaptWaterfall(config)) return;
 
         var setting = {
           tooltip: {
@@ -115,25 +173,23 @@
        * @name echarts-ng.service:$waterfall#adaptWaterfallSeries
        *
        * @param {object} config - the echarts instantiation configuration
-       * @param {boolean} override - whether adapt waterfall mode
        *
        * @description - transfer instance into waterfall mode
        */
-      function adaptWaterfallSeries(config, override) {
-        if (!override || !angular.isArray(config.series) || config.series.length !== 1) return;
+      function adaptWaterfallSeries(config) {
+        if (!waterfall.shouldAdaptWaterfall(config)) return;
 
-        var target = config.series[0];
-        if (!angular.isArray(target.data)) return;
-
-        var extension = {
-          stack: 'waterfall',
-          label: {
-            normal: {
-              show: true,
-              position: 'inside'
+        var target = config.series[0]
+          , extension = {
+            stack: 'waterfall',
+            type: 'bar',
+            label: {
+              normal: {
+                show: true,
+                position: 'inside'
+              }
             }
-          }
-        };
+          };
 
         angular.extend(target, extension);
 
@@ -176,25 +232,6 @@
     // service split hack, fix later
     ctx.initialCalculateHeight = '';
 
-    ctx.calculateDynamicDimension = function(series) {
-      var base = 45
-        , split = series.length
-        , length = series[0].data.length * split;
-
-      switch (true) {
-        case length < 5:
-          base = 60;
-          break;
-        case length >= 5 && length < 10:
-          base = 45;
-          break;
-        case length >= 10:
-          base = 35;
-          break;
-      }
-
-      return base * length + 'px';
-    };
     /**
      * @ngdoc service
      * @name echarts-ng.service:$dimension
@@ -204,12 +241,43 @@
     ctx.$get = [function () {
       var dimension = {};
 
+      dimension.calculateDynamicDimension = calculateDynamicDimension;
+      dimension.calculateEchartsDimension = calculateEchartsDimension;
       dimension.adaptEchartsDimension = adaptEchartsDimension;
       dimension.removeEchartsDimension = removeEchartsDimension;
       dimension.synchronizeEchartsDimension = synchronizeEchartsDimension;
       dimension.adjustEchartsDimension = adjustEchartsDimension;
 
       return dimension;
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#calculateDynamicDimension
+       *
+       * @param {object} series - echarts instance config series
+       *
+       * @description - calculate dynamic element height
+       */
+      function calculateDynamicDimension(series) {
+        var base = 45
+          , split = series.length
+          , length = series[0].data.length * split;
+
+        switch (true) {
+          case length < 5:
+            base = 60;
+            break;
+          case length >= 5 && length < 10:
+            base = 45;
+            break;
+          case length >= 10:
+            base = 35;
+            break;
+        }
+
+        return base * length + 'px';
+      }
 
       /**
        * @ngdoc method
@@ -221,7 +289,7 @@
        *
        * @description - adapt element dimension
        */
-      function adaptEchartsDimension(element, dimension) {
+      function calculateEchartsDimension(element, dimension) {
         if (!angular.isString(dimension)) {
           console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
           return;
@@ -239,6 +307,20 @@
         width = element.clientWidth;
         height = width * ratio[0] / ratio[1];
 
+        return height;
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#adaptEchartsDimension
+       *
+       * @param {object} element - echarts instance container html element
+       * @param {number} height - echarts instance container inline element height
+       *
+       * @description - adapt echarts dimension, add inline height when element not specific
+       */
+      function adaptEchartsDimension(element, height) {
         ctx.initialCalculateHeight = height + 'px';
         element.style.height = height + 'px';
       }
@@ -283,7 +365,7 @@
       function adjustEchartsDimension(element, series, dynamic) {
         if (!angular.isArray(series) || !angular.isObject(series[0]) || !angular.isArray(series[0].data)) return;
 
-        element.style.height = dynamic ? ctx.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
+        element.style.height = dynamic ? dimension.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
       }
     }];
   }
@@ -292,39 +374,6 @@
   "use strict";
   
   angular.module('echarts-ng').provider('$echarts', EchartsAssistanceProvider);
-
-  /**
-   * @constructor AdaptableMap
-   *
-   * @description - simple shim for ES6 Map, Do Not Use It directly
-   */
-  function AdaptableMap() {
-    this.storage = {};
-  }
-
-  AdaptableMap.prototype.has = function (identity) {
-    return this.storage.hasOwnProperty(identity);
-  };
-
-  AdaptableMap.prototype.get = function (identity) {
-    return this.storage[identity];
-  };
-
-  AdaptableMap.prototype.set = function (identity, instance) {
-    this.storage[identity] = instance;
-  };
-
-  AdaptableMap.prototype.delete = function (identity) {
-    delete this.storage[identity];
-  };
-
-  Object.defineProperty(AdaptableMap.prototype, 'size', {
-    enumerable: true,
-    configurable: false,
-    get: function () {
-      return Object.keys(this.storage).length;
-    }
-  });
   
   /**
    * @ngdoc service
@@ -388,9 +437,9 @@
        *
        * @type {object}
        *
-       * @description - storage for echarts instance
+       * @description - storage for echarts instance, provide decorative shim avoid unexpected situation
        */
-      assistance.storage = angular.isDefined(Map) ? new Map() : new AdaptableMap();
+      assistance.storage = new EchartsDecorativeMap();
       assistance.generateInstanceIdentity = generateInstanceIdentity;
       assistance.getEchartsGlobalOption = getEchartsGlobalOption;
       assistance.registerEchartsInstance = registerEchartsInstance;
@@ -544,6 +593,8 @@
        * @description - implement for drift the palette
        */
       function driftPaletteProperty(palette, offset) {
+        palette = angular.copy(palette);
+        
         var relative
           , clip
           , length = palette.length;
@@ -595,13 +646,14 @@
           , config = vm.config
           , theme = GLOBAL_OPTION.theme
           , driftPalette = GLOBAL_OPTION.driftPalette
-          , element = $element[0];
+          , element = $element[0]
+          , calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
 
         if (!identity) {
           throw new Error('Echarts Instance Identity Required');
         }
 
-        $dimension.adaptEchartsDimension(element, vm.echartsDimension);
+        $dimension.adaptEchartsDimension(element, calculateHeight);
 
         var instance = theme ? echarts.init(element, theme) : echarts.init(element);
 
@@ -610,8 +662,8 @@
         $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
 
-        $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.adaptWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallTooltip(instance, config);
+        $waterfall.adaptWaterfallSeries(config);
 
         angular.isObject(config) && angular.isArray(config.series)
           ? instance.setOption(config)
