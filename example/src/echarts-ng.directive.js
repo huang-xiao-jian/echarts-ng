@@ -43,37 +43,49 @@
           throw new Error('Echarts Instance Identity Required');
         }
 
-        $dimension.adaptEchartsDimension(element, vm.echartsDimension);
+        /**
+         * @type property
+         *
+         * @description - 基于宽高比计算动态高度
+         */
+        var calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
+        $dimension.adaptEchartsDimension(element, calculateHeight);
 
-        var instance = theme ? echarts.init(element, theme) : echarts.init(element);
+        var instance = echarts.init(element, theme)
+          , decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
 
         instance.setOption(GLOBAL_OPTION);
 
         $echarts.driftEchartsPalette(instance, driftPalette);
         $echarts.registerEchartsInstance(identity, instance);
+        $waterfall.adaptWaterfallTooltip(instance, vm.config);
 
-        $waterfall.adaptWaterfallTooltip(instance, config.waterfall);
-        $waterfall.adaptWaterfallSeries(config, config.waterfall);
-
-        angular.isObject(config) && angular.isArray(config.series)
-          ? instance.setOption(config)
+        angular.isObject(decorativeConfig) && angular.isArray(decorativeConfig.series)
+          ? instance.setOption(decorativeConfig)
           : instance.showLoading();
 
-        $scope.$watch('chart.echartsDimension', function (newDimension, oldDimension) {
-          if (!angular.equals(newDimension, oldDimension)) {
-            $dimension.adaptEchartsDimension(element, newDimension);
+        $scope.$watch('chart.echartsDimension', function (current, prev) {
+          if (!angular.equals(current, prev)) {
+            calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
+            $dimension.adaptEchartsDimension(element, calculateHeight);
             $dimension.synchronizeEchartsDimension(instance);
           }
         });
 
-        $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
-          $echarts.updateEchartsInstance(identity, vm.config);
+        $scope.$watchCollection('chart.config.title', function (current, prev) {
+          if (!angular.equals(current, prev)) {
+            decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
+            $waterfall.adaptWaterfallTooltip(instance, vm.config);
+            $echarts.updateEchartsInstance(identity, decorativeConfig);
+          }
         });
 
-        $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
-          $echarts.updateEchartsInstance(identity, vm.config);
+        $scope.$watchCollection('chart.config.series', function (current, prev) {
+          if (!angular.equals(current, prev)) {
+            decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
+            $waterfall.adaptWaterfallTooltip(instance, vm.config);
+            $echarts.updateEchartsInstance(identity, decorativeConfig);
+          }
         });
 
         $scope.$on('$destroy', function () {

@@ -15,25 +15,6 @@
     // service split hack, fix later
     ctx.initialCalculateHeight = '';
 
-    ctx.calculateDynamicDimension = function(series) {
-      var base = 45
-        , split = series.length
-        , length = series[0].data.length * split;
-
-      switch (true) {
-        case length < 5:
-          base = 60;
-          break;
-        case length >= 5 && length < 10:
-          base = 45;
-          break;
-        case length >= 10:
-          base = 35;
-          break;
-      }
-
-      return base * length + 'px';
-    };
     /**
      * @ngdoc service
      * @name echarts-ng.service:$dimension
@@ -43,12 +24,43 @@
     ctx.$get = [function () {
       var dimension = {};
 
+      dimension.calculateDynamicDimension = calculateDynamicDimension;
+      dimension.calculateEchartsDimension = calculateEchartsDimension;
       dimension.adaptEchartsDimension = adaptEchartsDimension;
       dimension.removeEchartsDimension = removeEchartsDimension;
       dimension.synchronizeEchartsDimension = synchronizeEchartsDimension;
       dimension.adjustEchartsDimension = adjustEchartsDimension;
 
       return dimension;
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#calculateDynamicDimension
+       *
+       * @param {object} series - echarts instance config series
+       *
+       * @description - calculate dynamic element height
+       */
+      function calculateDynamicDimension(series) {
+        var base = 45
+          , split = series.length
+          , length = series[0].data.length * split;
+
+        switch (true) {
+          case length < 5:
+            base = 60;
+            break;
+          case length >= 5 && length < 10:
+            base = 45;
+            break;
+          case length >= 10:
+            base = 35;
+            break;
+        }
+
+        return base * length + 'px';
+      }
 
       /**
        * @ngdoc method
@@ -60,7 +72,7 @@
        *
        * @description - adapt element dimension
        */
-      function adaptEchartsDimension(element, dimension) {
+      function calculateEchartsDimension(element, dimension) {
         if (!angular.isString(dimension)) {
           console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
           return;
@@ -78,6 +90,20 @@
         width = element.clientWidth;
         height = width * ratio[0] / ratio[1];
 
+        return height;
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#adaptEchartsDimension
+       *
+       * @param {object} element - echarts instance container html element
+       * @param {number} height - echarts instance container inline element height
+       *
+       * @description - adapt echarts dimension, add inline height when element not specific
+       */
+      function adaptEchartsDimension(element, height) {
         ctx.initialCalculateHeight = height + 'px';
         element.style.height = height + 'px';
       }
@@ -122,7 +148,7 @@
       function adjustEchartsDimension(element, series, dynamic) {
         if (!angular.isArray(series) || !angular.isObject(series[0]) || !angular.isArray(series[0].data)) return;
 
-        element.style.height = dynamic ? ctx.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
+        element.style.height = dynamic ? dimension.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
       }
     }];
   }
