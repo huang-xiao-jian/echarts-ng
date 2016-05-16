@@ -19,6 +19,7 @@ module.exports = function(config) {
       'example/lib/echarts/dist/echarts.js',
       'example/lib/angular/angular.js',
       'example/lib/angular-mocks/angular-mocks.js',
+      'example/src/echarts-ng.shim.js',
       'example/src/echarts-ng.declare.js',
       'example/src/echarts-ng-waterfall.service.js',
       'example/src/echarts-ng-dimension.service.js',
@@ -36,7 +37,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'example/src/*.js': ['coverage']
+      'example/src/!(*shim).js': ['coverage']
     },
 
 
