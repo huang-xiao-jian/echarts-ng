@@ -1,4 +1,10 @@
 ## echarts-ng
+
+![Build Status](https://img.shields.io/travis/bornkiller/echarts-ng.svg?style=flat)
+![Coverage Report](http://img.shields.io/coveralls/bornkiller/echarts-ng.svg?style=flat)
+![Package Dependency](https://david-dm.org/bornkiller/echarts-ng.svg?style=flat)
+![Package DevDependency](https://david-dm.org/bornkiller/echarts-ng/dev-status.svg?style=flat)
+
 百度`echarts`为优秀的图表库，在使用`angular`封装为指令的时候，发现了部分并不适用于自身项目的地方，在封装中做调整。https://github.com/bornkiller/echarts-ng
 
 ## 运行环境
@@ -99,7 +105,7 @@ $scope.distribution = {
 $echarts.queryEchartsInstance($scope.DISTRIBUTION_ID);
 ```
 
-+ 性能考量，指令内部并没有过多`watch`，当series为空，实例自动进入loading，当series改变，会自动重绘。 但其他选项并不会触发重绘，如`xAxis`, `tooltip`等等，需要显式更新.
++ 性能考量，指令内部并没有过多`watch`，当series为空，实例自动进入`loading`，当`series`改变，会自动重绘。 但其他选项并不会触发重绘，如`xAxis`, `tooltip`等等，需要显式更新.
 
 ```js
 // start the specific instance loading
