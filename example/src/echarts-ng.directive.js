@@ -60,21 +60,26 @@
           ? instance.setOption(config)
           : instance.showLoading();
 
-        $scope.$watch('chart.echartsDimension', function (newDimension, oldDimension) {
-          if (!angular.equals(newDimension, oldDimension)) {
-            $dimension.adaptEchartsDimension(element, newDimension);
+        $scope.$watch('chart.echartsDimension', function (current, prev) {
+          if (!angular.equals(current, prev)) {
+            calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
+            $dimension.adaptEchartsDimension(element, calculateHeight);
             $dimension.synchronizeEchartsDimension(instance);
           }
         });
 
-        $scope.$watchCollection('chart.config.title', function () {
-          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
-          $echarts.updateEchartsInstance(identity, vm.config);
+        $scope.$watchCollection('chart.config.title', function (current, prev) {
+          if (!angular.equals(current, prev)) {
+            $waterfall.adaptWaterfallSeries(vm.config);
+            $echarts.updateEchartsInstance(identity, vm.config);
+          }
         });
 
-        $scope.$watchCollection('chart.config.series', function () {
-          $waterfall.adaptWaterfallSeries(vm.config, vm.config.waterfall);
-          $echarts.updateEchartsInstance(identity, vm.config);
+        $scope.$watchCollection('chart.config.series', function (current, prev) {
+          if (!angular.equals(current, prev)) {
+            $waterfall.adaptWaterfallSeries(vm.config);
+            $echarts.updateEchartsInstance(identity, vm.config);
+          }
         });
 
         $scope.$on('$destroy', function () {
