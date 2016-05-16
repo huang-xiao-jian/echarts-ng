@@ -23,14 +23,12 @@
         }
       };
 
-      $timeout(function() {
-        $echarts.updateEchartsInstance($scope.distribution.identity, {
-          series: [{
-            name: '生活费',
-            type: 'waterfall',
-            data: [400, 1000, 100, 400, 1100, 3000]
-          }]
-        })
+      $timeout(function () {
+        $scope.distribution.config.series[0] = {
+          name: '生活费',
+          type: 'waterfall',
+          data: [400, 1000, 100, 400, 1100, 3000]
+        };
       }, 1200);
     }])
 })(angular);
