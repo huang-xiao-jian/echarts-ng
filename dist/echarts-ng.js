@@ -544,20 +544,22 @@
        * @description - update the instance, switch between loading and draw
        */
       function updateEchartsInstance(identity, config) {
-        var instance = assistance.storage.get(identity);
+        var instance = assistance.storage.get(identity)
+          , decorativeConfig;
 
         if (angular.isUndefined(instance)) {
           console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
           return;
         }
 
-        $waterfall.adaptWaterfallSeries(config, config.waterfall);
+        $waterfall.adaptWaterfallTooltip(instance, config);
         $dimension.adjustEchartsDimension(instance.getDom(), config.series, config.dynamic);
+        decorativeConfig = $waterfall.adaptWaterfallSeries(config);
 
-        if (angular.isObject(config) && angular.isArray(config.series) && config.series.length) {
+        if (angular.isObject(decorativeConfig) && angular.isArray(decorativeConfig.series) && decorativeConfig.series.length) {
           instance.hideLoading();
           instance.resize();
-          instance.setOption(config);
+          instance.setOption(decorativeConfig);
         } else {
           instance.clear();
           instance.showLoading();
@@ -687,17 +689,13 @@
 
         $scope.$watchCollection('chart.config.title', function (current, prev) {
           if (!angular.equals(current, prev)) {
-            decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
-            $waterfall.adaptWaterfallTooltip(instance, vm.config);
-            $echarts.updateEchartsInstance(identity, decorativeConfig);
+            $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
         $scope.$watchCollection('chart.config.series', function (current, prev) {
           if (!angular.equals(current, prev)) {
-            decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
-            $waterfall.adaptWaterfallTooltip(instance, vm.config);
-            $echarts.updateEchartsInstance(identity, decorativeConfig);
+            $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 

@@ -74,17 +74,13 @@
 
         $scope.$watchCollection('chart.config.title', function (current, prev) {
           if (!angular.equals(current, prev)) {
-            decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
-            $waterfall.adaptWaterfallTooltip(instance, vm.config);
-            $echarts.updateEchartsInstance(identity, decorativeConfig);
+            $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
         $scope.$watchCollection('chart.config.series', function (current, prev) {
           if (!angular.equals(current, prev)) {
-            decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
-            $waterfall.adaptWaterfallTooltip(instance, vm.config);
-            $echarts.updateEchartsInstance(identity, decorativeConfig);
+            $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
