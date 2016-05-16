@@ -1,12 +1,14 @@
 describe('echarts-ng $echarts service', function () {
   var $echarts
-    , $timeout;
+    , $timeout
+    , $rootScope;
   
   beforeEach(module('echarts-ng'));
   
-  beforeEach(inject(function (_$echarts_, _$timeout_) {
+  beforeEach(inject(function (_$echarts_, _$timeout_, _$rootScope_) {
     $echarts = _$echarts_;
     $timeout = _$timeout_;
+    $rootScope = _$rootScope_;
   }));
   
   it('should provide unique identity each time', function () {
@@ -27,6 +29,38 @@ describe('echarts-ng $echarts service', function () {
     
     $echarts.removeEchartsInstance(identity);
     expect($echarts.storage.has(identity)).toBeFalsy();
+  });
+
+  it('should provide specific instance with promise', function () {
+    var identity = $echarts.generateInstanceIdentity()
+      , instance = 'jasmine-test'
+      , target;
+
+    $echarts.registerEchartsInstance(identity, instance);
+    $echarts.queryEchartsInstance(identity).then(function (item) {
+      target = item;
+    });
+
+    $timeout.flush();
+    $rootScope.$digest();
+
+    expect(target).toEqual(instance);
+  });
+
+  it('should provide specific instance with promise', function () {
+    var identity = $echarts.generateInstanceIdentity()
+      , error = spyOn(console, 'error').and.stub()
+      , errorDesc;
+
+    $echarts.queryEchartsInstance(identity).catch(function (item) {
+      errorDesc = item.errorDesc;
+    });
+
+    $timeout.flush();
+    $rootScope.$digest();
+
+    expect(errorDesc).toBeTruthy();
+    expect(error).toHaveBeenCalled();
   });
   
   it('should drift the original palette property', function () {
@@ -54,5 +88,25 @@ describe('echarts-ng $echarts service', function () {
     $timeout.flush(10);
     expect(instance.setOption).toHaveBeenCalledWith({color: ["#b6a2de", "#5ab1ef", "#ffb980", "#2ec7c9"]});
     $timeout.verifyNoPendingTasks();
+  });
+});
+
+describe('echarts-ng $echarts provider', function () {
+  var $echarts
+    , title = {
+      left: 'center',
+      top: 'top'
+    };
+
+  beforeEach(module('echarts-ng', function ($echartsProvider) {
+    $echartsProvider.setGlobalOption({title: title});
+  }));
+
+  beforeEach(inject(function (_$echarts_) {
+    $echarts = _$echarts_;
+  }));
+
+  it('should extend default global option with shallow override', function () {
+    expect($echarts.getEchartsGlobalOption().title).toEqual(title);
   });
 });
