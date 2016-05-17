@@ -8,6 +8,7 @@ describe('echarts-ng waterfall service', function () {
   }));
 
   it('should provide assay result whether waterfall adapt should active', function () {
+    expect($waterfall.shouldAdaptWaterfall()).toBeFalsy();
     expect($waterfall.shouldAdaptWaterfall({})).toBeFalsy();
     expect($waterfall.shouldAdaptWaterfall({series: [1, 2]})).toBeFalsy();
     expect($waterfall.shouldAdaptWaterfall({series: [{data: 'hello world!'}]})).toBeFalsy();
