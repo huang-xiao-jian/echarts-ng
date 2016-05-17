@@ -40,7 +40,7 @@
        * @description - adapt tooltip when active waterfall transfer
        */
       function shouldAdaptWaterfall(config) {
-        if (!angular.isArray(config.series) || config.series.length !== 1) return false;
+        if (!angular.isObject(config) || !angular.isArray(config.series) || config.series.length !== 1) return false;
 
         var target = config.series[0];
 
