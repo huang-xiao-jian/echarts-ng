@@ -561,8 +561,8 @@
           instance.resize();
           instance.setOption(decorativeConfig);
         } else {
-          instance.clear();
-          instance.showLoading();
+          //instance.clear();
+          instance.showLoading('default', {maskColor: 'rgba(255, 255, 255, 1)'});
         }
       }
 
@@ -633,8 +633,8 @@
    *
    * @description - simple angular directive wrap for echarts
    */
-  echartsDirective.$inject = ['$echarts', '$waterfall', '$dimension'];
-  function echartsDirective($echarts, $waterfall, $dimension) {
+  echartsDirective.$inject = ['$echarts', '$dimension'];
+  function echartsDirective($echarts, $dimension) {
     return {
       priority: 5,
       restrict: 'A',
@@ -647,11 +647,9 @@
       controller: ['$scope', '$element', function ($scope, $element) {
         var vm = this;
 
-        var GLOBAL_OPTION = $echarts.getEchartsGlobalOption()
+        var OPTION = $echarts.getEchartsGlobalOption()
           , identity = vm.echarts
           , config = vm.config
-          , theme = GLOBAL_OPTION.theme
-          , driftPalette = GLOBAL_OPTION.driftPalette
           , element = $element[0];
 
         if (!identity) {
@@ -659,25 +657,29 @@
         }
 
         /**
-         * @type property
+         * @type number
          *
          * @description - 基于宽高比计算动态高度
          */
         var calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
+        /**
+         * @type object
+         *
+         * @description - echarts 实例对象
+         */
+        var instance;
+
         $dimension.adaptEchartsDimension(element, calculateHeight);
 
-        var instance = echarts.init(element, theme)
-          , decorativeConfig = $waterfall.adaptWaterfallSeries(vm.config);
+        instance = echarts.init(element, OPTION.theme);
+        instance.setOption(OPTION);
 
-        instance.setOption(GLOBAL_OPTION);
-
-        $echarts.driftEchartsPalette(instance, driftPalette);
+        // 调色板增强
+        $echarts.driftEchartsPalette(instance, OPTION.driftPalette);
+        // 注册当前实例对象
         $echarts.registerEchartsInstance(identity, instance);
-        $waterfall.adaptWaterfallTooltip(instance, vm.config);
-
-        angular.isObject(decorativeConfig) && angular.isArray(decorativeConfig.series)
-          ? instance.setOption(decorativeConfig)
-          : instance.showLoading();
+        // 绘制实例对象
+        $echarts.updateEchartsInstance(identity, vm.config);
 
         $scope.$watch('chart.echartsDimension', function (current, prev) {
           if (!angular.equals(current, prev)) {

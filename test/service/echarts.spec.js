@@ -87,7 +87,6 @@ describe('echarts-ng $echarts service', function () {
     
     $echarts.updateEchartsInstance(identity, {});
     
-    expect(instance.clear).toHaveBeenCalled();
     expect(instance.showLoading).toHaveBeenCalled();
   });
   

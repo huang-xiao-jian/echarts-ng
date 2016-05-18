@@ -185,8 +185,8 @@
           instance.resize();
           instance.setOption(decorativeConfig);
         } else {
-          instance.clear();
-          instance.showLoading();
+          //instance.clear();
+          instance.showLoading('default', {maskColor: 'rgba(255, 255, 255, 1)'});
         }
       }
 
