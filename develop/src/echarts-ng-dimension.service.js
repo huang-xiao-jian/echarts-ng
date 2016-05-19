@@ -66,6 +66,8 @@
        * @param {object} element - echarts instance container html element
        * @param {string} dimension - shortcut pixel ratio, format as width:height
        *
+       * @todo - 计算应基于content宽度，不包含padding部分
+       *
        * @description - adapt element dimension
        */
       function adaptEchartsDimension(element, dimension) {
