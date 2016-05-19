@@ -62,14 +62,6 @@ describe('echarts-ng echarts directive', function () {
       $scope.$digest();
     });
 
-    it('should provide calculate height', function () {
-      expect(template.height()).toEqual(80);
-
-      $scope.dimension = '10:9';
-      $scope.$digest();
-      expect(template.height()).toEqual(90);
-    });
-
     it('should synchronize title change', function () {
       $scope.config.title.left = 'left';
       $scope.$digest();
