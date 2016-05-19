@@ -12,8 +12,6 @@
   function DimensionAssistanceProvider() {
     var ctx = this;
 
-    // service split hack, fix later
-    ctx.initialCalculateHeight = '';
 
     /**
      * @ngdoc service
@@ -24,14 +22,88 @@
     ctx.$get = [function () {
       var dimension = {};
 
-      dimension.calculateDynamicDimension = calculateDynamicDimension;
-      dimension.calculateEchartsDimension = calculateEchartsDimension;
+      dimension.shouldAdaptDimension = shouldAdaptDimension;
       dimension.adaptEchartsDimension = adaptEchartsDimension;
+      dimension.calculateDynamicDimension = calculateDynamicDimension;
       dimension.removeEchartsDimension = removeEchartsDimension;
       dimension.synchronizeEchartsDimension = synchronizeEchartsDimension;
       dimension.adjustEchartsDimension = adjustEchartsDimension;
 
       return dimension;
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#shouldAdaptDimension
+       *
+       * @param {object} element - echarts instance container html element
+       * @param {string} dimension - shortcut pixel ratio, format as width:height
+       * @return {boolean}
+       *
+       * @todo - handle the situation when element has css control height
+       *
+       * @description - whether should wrap the element dimension
+       */
+      function shouldAdaptDimension(element, dimension) {
+        if (!angular.isString(dimension)) {
+          console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
+          return false;
+        }
+
+        if (dimension.split(':').length !== 2) {
+          console.warn("The Pass Pixel Ratio Invalid, Please Verify Param");
+          return false;
+        }
+
+        return true;
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#adaptEchartsDimension
+       *
+       * @param {object} element - echarts instance container html element
+       * @param {string} dimension - shortcut pixel ratio, format as width:height
+       *
+       * @description - adapt element dimension
+       */
+      function adaptEchartsDimension(element, dimension) {
+        var width
+          , height
+          , ratio = dimension.split(':').reverse().map(Number);
+
+        width = element.clientWidth;
+        height = width * ratio[0] / ratio[1];
+
+        element.style.height = height + 'px';
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#removeEchartsDimension
+       *
+       * @param {object} element - echarts instance container html element
+       *
+       * @description - remove echarts dimension
+       */
+      function removeEchartsDimension(element) {
+        element.style.removeProperty ? element.style.removeProperty('height') : element.style.removeAttribute('height');
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#synchronizeEchartsDimension
+       *
+       * @param {object} instance - the echarts instance
+       *
+       * @description - synchronize echarts pixel ratio, just for wrap
+       */
+      function synchronizeEchartsDimension(instance) {
+        instance.resize();
+      }
 
       /**
        * @ngdoc method
@@ -60,78 +132,6 @@
         }
 
         return base * length + 'px';
-      }
-
-      /**
-       * @ngdoc method
-       * @methodOf echarts-ng.service:$dimension
-       * @name echarts-ng.service:$dimension#adaptEchartsDimension
-       *
-       * @param {object} element - echarts instance container html element
-       * @param {string} dimension - shortcut pixel ratio, format as width:height
-       *
-       * @description - adapt element dimension
-       */
-      function calculateEchartsDimension(element, dimension) {
-        if (!angular.isString(dimension)) {
-          console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
-          return;
-        }
-
-        var width
-          , height
-          , ratio = dimension.split(':').reverse().map(Number);
-
-        if (ratio.length !== 2) {
-          console.warn("The Pass Pixel Ratio Invalid, Please Verify Param");
-          return;
-        }
-
-        width = element.clientWidth;
-        height = width * ratio[0] / ratio[1];
-
-        return height;
-      }
-
-      /**
-       * @ngdoc method
-       * @methodOf echarts-ng.service:$dimension
-       * @name echarts-ng.service:$dimension#adaptEchartsDimension
-       *
-       * @param {object} element - echarts instance container html element
-       * @param {number} height - echarts instance container inline element height
-       *
-       * @description - adapt echarts dimension, add inline height when element not specific
-       */
-      function adaptEchartsDimension(element, height) {
-        ctx.initialCalculateHeight = height + 'px';
-        element.style.height = height + 'px';
-      }
-
-      /**
-       * @ngdoc method
-       * @methodOf echarts-ng.service:$dimension
-       * @name echarts-ng.service:$dimension#removeEchartsDimension
-       *
-       * @param {object} element - echarts instance container html element
-       *
-       * @description - remove echarts dimension
-       */
-      function removeEchartsDimension(element) {
-        element.style.removeProperty ? element.style.removeProperty('height') : element.style.removeAttribute('height');
-      }
-
-      /**
-       * @ngdoc method
-       * @methodOf echarts-ng.service:$dimension
-       * @name echarts-ng.service:$dimension#synchronizeEchartsDimension
-       *
-       * @param {object} instance - the echarts instance
-       *
-       * @description - synchronize echarts pixel ratio, just for wrap
-       */
-      function synchronizeEchartsDimension(instance) {
-        instance.resize();
       }
 
       /**

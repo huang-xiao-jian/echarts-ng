@@ -44,17 +44,15 @@
         /**
          * @type number
          *
-         * @description - 基于宽高比计算动态高度
+         * @description - 初始化高度设定，避免echarts绘制失败
          */
-        var calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
+        $dimension.shouldAdaptDimension(element, vm.echartsDimension) && $dimension.adaptEchartsDimension(element, vm.echartsDimension);
         /**
          * @type object
          *
          * @description - echarts 实例对象
          */
         var instance;
-
-        $dimension.adaptEchartsDimension(element, calculateHeight);
 
         instance = echarts.init(element, OPTION.theme);
         instance.setOption(OPTION);
@@ -65,14 +63,6 @@
         $echarts.registerEchartsInstance(identity, instance);
         // 绘制实例对象
         $echarts.updateEchartsInstance(identity, vm.config);
-
-        $scope.$watch('chart.echartsDimension', function (current, prev) {
-          if (!angular.equals(current, prev)) {
-            calculateHeight = $dimension.calculateEchartsDimension(element, vm.echartsDimension);
-            $dimension.adaptEchartsDimension(element, calculateHeight);
-            $dimension.synchronizeEchartsDimension(instance);
-          }
-        });
 
         $scope.$watchCollection('chart.config.title', function (current, prev) {
           if (!angular.equals(current, prev)) {
