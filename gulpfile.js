@@ -6,12 +6,12 @@ var gulp = require('gulp')
 
 gulp.task('build', function () {
   gulp.src([
-    'example/src/echarts-ng.shim.js',
-    'example/src/echarts-ng.declare.js',
-    'example/src/echarts-ng-waterfall.service.js',
-    'example/src/echarts-ng-dimension.service.js',
-    'example/src/echarts-ng.service.js',
-    'example/src/echarts-ng.directive.js'
+    'develop/src/echarts-ng.shim.js',
+    'develop/src/echarts-ng.declare.js',
+    'develop/src/echarts-ng-waterfall.service.js',
+    'develop/src/echarts-ng-dimension.service.js',
+    'develop/src/echarts-ng.service.js',
+    'develop/src/echarts-ng.directive.js'
   ])
     .pipe(concat('echarts-ng.js'))
     .pipe(gulp.dest('dist/'))
