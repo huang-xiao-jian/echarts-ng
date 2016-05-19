@@ -152,9 +152,7 @@
        * @description - remove specific instance
        */
       function removeEchartsInstance(identity) {
-        if (assistance.storage.has(identity)) {
-          assistance.storage.delete(identity);
-        }
+        assistance.storage.delete(identity);
       }
 
       /**

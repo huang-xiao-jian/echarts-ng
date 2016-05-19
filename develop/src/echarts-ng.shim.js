@@ -25,7 +25,7 @@
   };
 
   AdaptableMap.prototype.delete = function (identity) {
-    delete this.storage[identity];
+    if (this.has(identity)) delete this.storage[identity];
   };
 
   Object.defineProperty(AdaptableMap.prototype, 'size', {
