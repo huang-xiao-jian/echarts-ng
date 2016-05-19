@@ -13,7 +13,6 @@ gulp.task('build', function () {
     'example/src/echarts-ng.service.js',
     'example/src/echarts-ng.directive.js'
   ])
-    .pipe(gulp.dest('src/'))
     .pipe(concat('echarts-ng.js'))
     .pipe(gulp.dest('dist/'))
     .pipe(uglify())
@@ -24,7 +23,7 @@ gulp.task('build', function () {
 gulp.task('serve', function () {
   var baseServerOpts = {
     server: {
-      baseDir: "example/",
+      baseDir: "develop/",
       index: "index.html"
     }
   };
