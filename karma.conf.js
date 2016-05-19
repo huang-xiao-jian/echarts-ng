@@ -15,16 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'example/lib/jquery/dist/jquery.js',
-      'example/lib/echarts/dist/echarts.js',
-      'example/lib/angular/angular.js',
-      'example/lib/angular-mocks/angular-mocks.js',
-      'example/src/echarts-ng.shim.js',
-      'example/src/echarts-ng.declare.js',
-      'example/src/echarts-ng-waterfall.service.js',
-      'example/src/echarts-ng-dimension.service.js',
-      'example/src/echarts-ng.service.js',
-      'example/src/echarts-ng.directive.js',
+      'develop/lib/jquery/dist/jquery.js',
+      'develop/lib/echarts/dist/echarts.js',
+      'develop/lib/angular/angular.js',
+      'develop/lib/angular-mocks/angular-mocks.js',
+      'develop/src/echarts-ng.shim.js',
+      'develop/src/echarts-ng.declare.js',
+      'develop/src/echarts-ng-waterfall.service.js',
+      'develop/src/echarts-ng-dimension.service.js',
+      'develop/src/echarts-ng.service.js',
+      'develop/src/echarts-ng.directive.js',
       'test/**/*.spec.js'
     ],
 
@@ -37,7 +37,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'example/src/!(*shim).js': ['coverage']
+      'develop/src/!(*shim).js': ['coverage']
     },
 
 
