@@ -1,4 +1,4 @@
-describe('echarts-ng dimension service', function () {
+describe('echarts-ng dimension service element irrelevant operation', function () {
   var $dimension;
 
   beforeEach(module('echarts-ng'));
@@ -66,5 +66,47 @@ describe('echarts-ng dimension service', function () {
     expect(instance.resize).not.toHaveBeenCalled();
     $dimension.synchronizeEchartsDimension(instance);
     expect(instance.resize).toHaveBeenCalled();
+  });
+});
+
+describe('echarts-ng dimension service element related operation', function () {
+  var $dimension
+    , body = $('body')
+    , template
+    , element;
+
+  beforeEach(module('echarts-ng'));
+
+  beforeEach(inject(function (_$dimension_) {
+    $dimension = _$dimension_;
+  }));
+
+  beforeEach(function () {
+    template = $('<div style="width: 100px; padding: 0"></div>').appendTo(body);
+    element = template[0];
+  });
+
+  afterEach(function () {
+    template.remove();
+    element = null;
+  });
+
+  it('should provide original height avoid echarts error', function () {
+    $dimension.adaptEchartsDimension(element, '10:7');
+    expect(template.height()).toEqual(70);
+  });
+
+  it('should remove inline height', function () {
+    var originalHeight = template.height();
+
+    $dimension.adaptEchartsDimension(element, '10:7');
+    $dimension.removeEchartsDimension(element);
+    expect(template.height()).toEqual(originalHeight);
+  });
+  
+  it('should provide dynamic height avoid ugly visual', function () {
+    spyOn($dimension, 'calculateDynamicDimension').and.returnValue('70px');
+    $dimension.adjustEchartsDimension(element, []);
+    expect(template.height()).toEqual(70);
   });
 });
