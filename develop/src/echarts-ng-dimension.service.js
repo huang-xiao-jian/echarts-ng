@@ -139,15 +139,17 @@
        * @methodOf echarts-ng.service:$dimension
        * @name echarts-ng.service:$dimension#shouldAdjustEchartsDimension
        *
-       * @param {array} series - standard echarts series
        * @param {boolean} dynamic - whether adjust dynamic dom height
+       * @param {array} series - standard echarts series
        * @return {boolean}
        *
        * @description - whether adjust dynamic echarts dimension
        */
-      function shouldAdjustEchartsDimension(series, dynamic) {
+      function shouldAdjustEchartsDimension(dynamic, series) {
         if (!dynamic) return false;
-        return !(!angular.isArray(series) || !angular.isObject(series[0]) || !angular.isArray(series[0].data));
+        if (!angular.isArray(series) || !series[0]) return false;
+
+        return angular.isArray(series[0].data);
       }
 
       /**

@@ -177,7 +177,7 @@
         }
 
         $waterfall.adaptWaterfallTooltip(instance, config);
-        $dimension.shouldAdjustEchartsDimension(config.series, config.dynamic) && $dimension.adjustEchartsDimension(instance.getDom(), config.series);
+        $dimension.shouldAdjustEchartsDimension(config.dynamic, config.series) && $dimension.adjustEchartsDimension(instance.getDom(), config.series);
         decorativeConfig = $waterfall.adaptWaterfallSeries(config);
 
         if (angular.isObject(decorativeConfig) && angular.isArray(decorativeConfig.series) && decorativeConfig.series.length) {
