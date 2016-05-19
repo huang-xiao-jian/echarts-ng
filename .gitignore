@@ -36,5 +36,5 @@ example/lib
 # Optional IDE/OSX
 .idea
 .DS_Store
-example/lib
+develop/lib
 
