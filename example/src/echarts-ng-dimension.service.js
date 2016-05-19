@@ -12,7 +12,6 @@
   function DimensionAssistanceProvider() {
     var ctx = this;
 
-
     /**
      * @ngdoc service
      * @name echarts-ng.service:$dimension
@@ -23,6 +22,7 @@
       var dimension = {};
 
       dimension.shouldAdaptDimension = shouldAdaptDimension;
+      dimension.shouldAdjustEchartsDimension = shouldAdjustEchartsDimension;
       dimension.adaptEchartsDimension = adaptEchartsDimension;
       dimension.calculateDynamicDimension = calculateDynamicDimension;
       dimension.removeEchartsDimension = removeEchartsDimension;
@@ -137,18 +137,31 @@
       /**
        * @ngdoc method
        * @methodOf echarts-ng.service:$dimension
+       * @name echarts-ng.service:$dimension#shouldAdjustEchartsDimension
+       *
+       * @param {array} series - standard echarts series
+       * @param {boolean} dynamic - whether adjust dynamic dom height
+       * @return {boolean}
+       *
+       * @description - whether adjust dynamic echarts dimension
+       */
+      function shouldAdjustEchartsDimension(series, dynamic) {
+        if (!dynamic) return false;
+        return !(!angular.isArray(series) || !angular.isObject(series[0]) || !angular.isArray(series[0].data));
+      }
+
+      /**
+       * @ngdoc method
+       * @methodOf echarts-ng.service:$dimension
        * @name echarts-ng.service:$dimension#adjustEchartsDimension
        *
        * @param {object} element - echarts instance container html element
        * @param {array} series - standard echarts series
-       * @param {boolean} dynamic - whether adjust dom height
        *
        * @description - adjust echarts dimension dynamic
        */
-      function adjustEchartsDimension(element, series, dynamic) {
-        if (!angular.isArray(series) || !angular.isObject(series[0]) || !angular.isArray(series[0].data)) return;
-
-        element.style.height = dynamic ? dimension.calculateDynamicDimension(series) : ctx.initialCalculateHeight;
+      function adjustEchartsDimension(element, series) {
+        element.style.height = dimension.calculateDynamicDimension(series);
       }
     }];
   }
