@@ -1,6 +1,7 @@
 (function (window) {
   "use strict";
 
+  /*global Map:true*/
   window.EchartsDecorativeMap = Map || AdaptableMap;
 
   /**
@@ -28,7 +29,7 @@
     if (this.has(identity)) delete this.storage[identity];
   };
 
-  Object.defineProperty(AdaptableMap.prototype, 'size', {
+  Object.defineProperty(AdaptableMap.prototype, "size", {
     enumerable: true,
     configurable: false,
     get: function () {
@@ -47,12 +48,12 @@
    *
    * @description - simple angular wrap for baidu echarts
    */
-  angular.module('echarts-ng', []);
+  angular.module("echarts-ng", []);
 })(angular);
 (function (angular) {
   "use strict";
   
-  angular.module('echarts-ng').provider('$waterfall', WaterfallAssistanceProvider);
+  angular.module("echarts-ng").provider("$waterfall", WaterfallAssistanceProvider);
   
   /**
    * @ngdoc service
@@ -95,7 +96,7 @@
 
         var target = config.series[0];
 
-        return (angular.isArray(target.data) && angular.equals(target.type, 'waterfall'));
+        return (angular.isArray(target.data) && angular.equals(target.type, "waterfall"));
       }
 
       /**
@@ -113,11 +114,11 @@
 
         var setting = {
           tooltip: {
-            trigger: 'axis',
+            trigger: "axis",
             axisPointer: {
-              type: 'shadow'
+              type: "shadow"
             },
-            formatter: '{a1}: <br/> {b1}: {c1}'
+            formatter: "{a1}: <br/> {b1}: {c1}"
           }
         };
 
@@ -183,12 +184,12 @@
 
         var target = config.series[0]
           , extension = {
-            stack: 'waterfall',
-            type: 'bar',
+            stack: "waterfall",
+            type: "bar",
             label: {
               normal: {
                 show: true,
-                position: 'inside'
+                position: "inside"
               }
             }
           };
@@ -196,17 +197,17 @@
         angular.extend(target, extension);
 
         var helper = {
-          name: 'helper',
-          type: 'bar',
-          stack: 'waterfall',
+          name: "helper",
+          type: "bar",
+          stack: "waterfall",
           itemStyle: {
             normal: {
-              barBorderColor: 'rgba(0,0,0,1)',
-              color: 'rgba(0,0,0,0)'
+              barBorderColor: "rgba(0,0,0,1)",
+              color: "rgba(0,0,0,0)"
             },
             emphasis: {
-              barBorderColor: 'rgba(0,0,0,0)',
-              color: 'rgba(0,0,0,0)'
+              barBorderColor: "rgba(0,0,0,0)",
+              color: "rgba(0,0,0,0)"
             }
           },
           data: waterfall.calculateWaterfallFlow(target.data)
@@ -222,7 +223,7 @@
 (function (angular) {
   "use strict";
 
-  angular.module('echarts-ng').provider('$dimension', DimensionAssistanceProvider);
+  angular.module("echarts-ng").provider("$dimension", DimensionAssistanceProvider);
 
   /**
    * @ngdoc service
@@ -267,12 +268,12 @@
        */
       function shouldAdaptDimension(element, dimension) {
         if (!angular.isString(dimension)) {
-          console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
+          console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified"); //eslint-disable-line no-console
           return false;
         }
 
-        if (dimension.split(':').length !== 2) {
-          console.warn("The Pass Pixel Ratio Invalid, Please Verify Param");
+        if (dimension.split(":").length !== 2) {
+          console.warn("The Pass Pixel Ratio Invalid, Please Verify Param"); //eslint-disable-line no-console
           return false;
         }
 
@@ -294,12 +295,12 @@
       function adaptEchartsDimension(element, dimension) {
         var width
           , height
-          , ratio = dimension.split(':').reverse().map(Number);
+          , ratio = dimension.split(":").reverse().map(Number);
 
         width = element.clientWidth;
         height = width * ratio[0] / ratio[1];
 
-        element.style.height = height + 'px';
+        element.style.height = height + "px";
       }
 
       /**
@@ -312,7 +313,7 @@
        * @description - remove echarts dimension
        */
       function removeEchartsDimension(element) {
-        element.style.removeProperty ? element.style.removeProperty('height') : element.style.removeAttribute('height');
+        element.style.removeProperty ? element.style.removeProperty("height") : element.style.removeAttribute("height");
       }
 
       /**
@@ -354,7 +355,7 @@
             break;
         }
 
-        return base * length + 'px';
+        return base * length + "px";
       }
 
       /**
@@ -394,7 +395,7 @@
 (function (angular) {
   "use strict";
   
-  angular.module('echarts-ng').provider('$echarts', EchartsAssistanceProvider);
+  angular.module("echarts-ng").provider("$echarts", EchartsAssistanceProvider);
   
   /**
    * @ngdoc service
@@ -407,30 +408,30 @@
     
     // base echarts options
     ctx.GLOBAL_OPTION = {
-      theme: 'macarons',
+      theme: "macarons",
       driftPalette: true,
       title: {
-        left: 'center',
-        top: 'top',
+        left: "center",
+        top: "top",
         padding: [20, 10, 10, 10]
       },
       grid: {
-        top: '15%',
-        left: '5%',
-        right: '5%',
-        bottom: '5%',
+        top: "15%",
+        left: "5%",
+        right: "5%",
+        bottom: "5%",
         containLabel: true
       },
-      backgroundColor: 'rgba(255, 255, 255, .5)',
+      backgroundColor: "rgba(255, 255, 255, .5)",
       legend: {
-        left: 'center',
-        top: 'top',
+        left: "center",
+        top: "top",
         padding: [20, 10, 10, 10]
       },
       tooltip: {
-        trigger: 'axis',
+        trigger: "axis",
         axisPointer: {
-          type: 'shadow'
+          type: "shadow"
         }
       }
     };
@@ -449,8 +450,10 @@
      *
      * @description - echarts-ng util method
      */
-    ctx.$get = ['$q', '$timeout', '$waterfall', '$dimension', function ($q, $timeout, $waterfall, $dimension) {
+    ctx.$get = ["$q", "$timeout", "$waterfall", "$dimension", function ($q, $timeout, $waterfall, $dimension) {
       var assistance = {};
+
+      /*global EchartsDecorativeMap*/
 
       /**
        * @ngdoc property
@@ -527,8 +530,8 @@
           if (assistance.storage.has(identity)) {
             deferred.resolve(assistance.storage.get(identity));
           } else {
-            console.error('Echarts Identity Not Registered, Please Verify The Process');
-            deferred.reject({errorDesc: 'Echarts Identity Not Registered, Please Verify The Process'});
+            console.error("Echarts Identity Not Registered, Please Verify The Process"); //eslint-disable-line no-console
+            deferred.reject({errorDesc: "Echarts Identity Not Registered, Please Verify The Process"});
           }
         }, 0);
 
@@ -563,7 +566,7 @@
           , decorativeConfig;
 
         if (angular.isUndefined(instance)) {
-          console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
+          console.warn("The instance not registered. Probably the exception belongs to the directive wrap"); //eslint-disable-line no-console
           return;
         }
 
@@ -577,7 +580,7 @@
           instance.setOption(decorativeConfig);
         } else {
           //instance.clear();
-          instance.showLoading('default', {maskColor: 'rgba(255, 255, 255, 1)'});
+          instance.showLoading("default", {maskColor: "rgba(255, 255, 255, 1)"});
         }
       }
 
@@ -631,7 +634,7 @@
 (function (angular, echarts) {
   "use strict";
 
-  angular.module('echarts-ng').directive('echarts', echartsDirective);
+  angular.module("echarts-ng").directive("echarts", echartsDirective);
 
   /**
    * @ngdoc directive
@@ -648,27 +651,26 @@
    *
    * @description - simple angular directive wrap for echarts
    */
-  echartsDirective.$inject = ['$echarts', '$dimension'];
+  echartsDirective.$inject = ["$echarts", "$dimension"];
   function echartsDirective($echarts, $dimension) {
     return {
       priority: 5,
-      restrict: 'A',
+      restrict: "A",
       scope: {
-        echarts: '=',
-        echartsDimension: '=',
-        config: '='
+        echarts: "=",
+        echartsDimension: "=",
+        config: "="
       },
       bindToController: true,
-      controller: ['$scope', '$element', function ($scope, $element) {
+      controller: ["$scope", "$element", function ($scope, $element) {
         var vm = this;
 
         var OPTION = $echarts.getEchartsGlobalOption()
           , identity = vm.echarts
-          , config = vm.config
           , element = $element[0];
 
         if (!identity) {
-          throw new Error('Echarts Instance Identity Required');
+          throw new Error("Echarts Instance Identity Required");
         }
 
         /**
@@ -694,26 +696,26 @@
         // 绘制实例对象
         $echarts.updateEchartsInstance(identity, vm.config);
 
-        $scope.$watchCollection('chart.config.title', function (current, prev) {
+        $scope.$watchCollection("chart.config.title", function (current, prev) {
           if (!angular.equals(current, prev)) {
             $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
-        $scope.$watchCollection('chart.config.series', function (current, prev) {
+        $scope.$watchCollection("chart.config.series", function (current, prev) {
           if (!angular.equals(current, prev)) {
             $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
-        $scope.$on('$destroy', function () {
+        $scope.$on("$destroy", function () {
           instance.clear();
           instance.dispose();
           $echarts.removeEchartsInstance(identity);
           $dimension.removeEchartsDimension(element);
         });
       }],
-      controllerAs: 'chart'
-    }
+      controllerAs: "chart"
+    };
   }
 })(angular, echarts);
