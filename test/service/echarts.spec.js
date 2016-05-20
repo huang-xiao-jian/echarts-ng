@@ -1,11 +1,11 @@
-describe('echarts-ng $echarts service', function () {
+describe("echarts-ng $echarts service", function () {
   var $echarts
     , $dimension
     , $waterfall
     , $timeout
     , $rootScope;
   
-  beforeEach(module('echarts-ng'));
+  beforeEach(module("echarts-ng"));
   
   beforeEach(inject(function (_$echarts_, _$dimension_, _$waterfall_, _$timeout_, _$rootScope_) {
     $echarts = _$echarts_;
@@ -15,16 +15,16 @@ describe('echarts-ng $echarts service', function () {
     $rootScope = _$rootScope_;
   }));
   
-  it('should provide unique identity each time', function () {
+  it("should provide unique identity each time", function () {
     var first = $echarts.generateInstanceIdentity()
       , second = $echarts.generateInstanceIdentity();
     
     expect(first).not.toEqual(second);
   });
   
-  it('should register each echarts instance', function () {
+  it("should register each echarts instance", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , instance = 'jasmine-test';
+      , instance = "jasmine-test";
     
     $echarts.registerEchartsInstance(identity, instance);
     
@@ -35,9 +35,9 @@ describe('echarts-ng $echarts service', function () {
     expect($echarts.storage.has(identity)).toBeFalsy();
   });
   
-  it('should provide specific instance with promise', function () {
+  it("should provide specific instance with promise", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , instance = 'jasmine-test'
+      , instance = "jasmine-test"
       , target;
     
     $echarts.registerEchartsInstance(identity, instance);
@@ -51,9 +51,9 @@ describe('echarts-ng $echarts service', function () {
     expect(target).toEqual(instance);
   });
   
-  it('should provide specific instance with promise', function () {
+  it("should provide specific instance with promise", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , error = spyOn(console, 'error').and.stub()
+      , error = spyOn(console, "error").and.stub()
       , errorDesc;
     
     $echarts.queryEchartsInstance(identity).catch(function (item) {
@@ -67,50 +67,50 @@ describe('echarts-ng $echarts service', function () {
     expect(error).toHaveBeenCalled();
   });
   
-  it('should warn when instance not registered', function () {
+  it("should warn when instance not registered", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , warn = spyOn(console, 'warn').and.stub();
+      , warn = spyOn(console, "warn").and.stub();
     
     $echarts.updateEchartsInstance(identity);
     expect(warn).toHaveBeenCalled();
   });
   
-  it('should update instance into latest', function () {
+  it("should update instance into latest", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , instance = jasmine.createSpyObj('instance', ['setOption', 'getOption', 'showLoading', 'hideLoading', 'resize', 'clear', 'getDom']);
+      , instance = jasmine.createSpyObj("instance", ["setOption", "getOption", "showLoading", "hideLoading", "resize", "clear", "getDom"]);
     
     $echarts.registerEchartsInstance(identity, instance);
     
-    spyOn($waterfall, 'adaptWaterfallTooltip').and.stub();
-    spyOn($dimension, 'adjustEchartsDimension').and.stub();
-    spyOn($waterfall, 'adaptWaterfallSeries').and.returnValue({series: []});
+    spyOn($waterfall, "adaptWaterfallTooltip").and.stub();
+    spyOn($dimension, "adjustEchartsDimension").and.stub();
+    spyOn($waterfall, "adaptWaterfallSeries").and.returnValue({series: []});
     
     $echarts.updateEchartsInstance(identity, {});
     
     expect(instance.showLoading).toHaveBeenCalled();
   });
   
-  it('should update instance into latest', function () {
+  it("should update instance into latest", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , instance = jasmine.createSpyObj('instance', ['setOption', 'getOption', 'showLoading', 'hideLoading', 'resize', 'clear', 'getDom'])
+      , instance = jasmine.createSpyObj("instance", ["setOption", "getOption", "showLoading", "hideLoading", "resize", "clear", "getDom"])
       , series = [{
-      name: '搜索引擎',
-      type: 'bar',
-      data: [820, 932, 901, 934, 1290, 1330, 1320]
-    }];
+        name: "搜索引擎",
+        type: "bar",
+        data: [820, 932, 901, 934, 1290, 1330, 1320]
+      }];
     
     $echarts.registerEchartsInstance(identity, instance);
     
-    spyOn($waterfall, 'adaptWaterfallTooltip').and.stub();
-    spyOn($dimension, 'adjustEchartsDimension').and.stub();
-    spyOn($waterfall, 'adaptWaterfallSeries').and.returnValue({series: series});
+    spyOn($waterfall, "adaptWaterfallTooltip").and.stub();
+    spyOn($dimension, "adjustEchartsDimension").and.stub();
+    spyOn($waterfall, "adaptWaterfallSeries").and.returnValue({series: series});
     
     $echarts.updateEchartsInstance(identity, {});
   
     expect(instance.setOption).toHaveBeenCalledWith({series: series});
   });
   
-  it('should drift the original palette property', function () {
+  it("should drift the original palette property", function () {
     var palette = ["#2ec7c9", "#b6a2de", "#5ab1ef", "#ffb980"]
       , driftPalette = ["#5ab1ef", "#ffb980", "#2ec7c9", "#b6a2de"]
       , driftOverflowPalette = ["#b6a2de", "#5ab1ef", "#ffb980", "#2ec7c9"];
@@ -119,9 +119,9 @@ describe('echarts-ng $echarts service', function () {
     expect($echarts.driftPaletteProperty(palette, 5)).toEqual(driftOverflowPalette);
   });
   
-  it('should drift instance palette', function () {
+  it("should drift instance palette", function () {
     var identity = $echarts.generateInstanceIdentity()
-      , instance = jasmine.createSpyObj('instance', ['getOption', 'setOption']);
+      , instance = jasmine.createSpyObj("instance", ["getOption", "setOption"]);
     
     instance.getOption.and.returnValues({color: ["#2ec7c9", "#b6a2de", "#5ab1ef", "#ffb980"]});
     
@@ -138,14 +138,14 @@ describe('echarts-ng $echarts service', function () {
   });
 });
 
-describe('echarts-ng $echarts provider', function () {
+describe("echarts-ng $echarts provider", function () {
   var $echarts
     , title = {
-    left: 'center',
-    top: 'top'
-  };
+      left: "center",
+      top: "top"
+    };
   
-  beforeEach(module('echarts-ng', function ($echartsProvider) {
+  beforeEach(module("echarts-ng", function ($echartsProvider) {
     $echartsProvider.setGlobalOption({title: title});
   }));
   
@@ -153,7 +153,7 @@ describe('echarts-ng $echarts provider', function () {
     $echarts = _$echarts_;
   }));
   
-  it('should extend default global option with shallow override', function () {
+  it("should extend default global option with shallow override", function () {
     expect($echarts.getEchartsGlobalOption().title).toEqual(title);
   });
 });

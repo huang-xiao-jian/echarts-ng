@@ -1,6 +1,7 @@
 (function (window) {
   "use strict";
 
+  /*global Map:true*/
   window.EchartsDecorativeMap = Map || AdaptableMap;
 
   /**
@@ -28,7 +29,7 @@
     if (this.has(identity)) delete this.storage[identity];
   };
 
-  Object.defineProperty(AdaptableMap.prototype, 'size', {
+  Object.defineProperty(AdaptableMap.prototype, "size", {
     enumerable: true,
     configurable: false,
     get: function () {

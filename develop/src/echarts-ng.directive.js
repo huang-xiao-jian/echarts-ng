@@ -1,7 +1,7 @@
 (function (angular, echarts) {
   "use strict";
 
-  angular.module('echarts-ng').directive('echarts', echartsDirective);
+  angular.module("echarts-ng").directive("echarts", echartsDirective);
 
   /**
    * @ngdoc directive
@@ -18,27 +18,26 @@
    *
    * @description - simple angular directive wrap for echarts
    */
-  echartsDirective.$inject = ['$echarts', '$dimension'];
+  echartsDirective.$inject = ["$echarts", "$dimension"];
   function echartsDirective($echarts, $dimension) {
     return {
       priority: 5,
-      restrict: 'A',
+      restrict: "A",
       scope: {
-        echarts: '=',
-        echartsDimension: '=',
-        config: '='
+        echarts: "=",
+        echartsDimension: "=",
+        config: "="
       },
       bindToController: true,
-      controller: ['$scope', '$element', function ($scope, $element) {
+      controller: ["$scope", "$element", function ($scope, $element) {
         var vm = this;
 
         var OPTION = $echarts.getEchartsGlobalOption()
           , identity = vm.echarts
-          , config = vm.config
           , element = $element[0];
 
         if (!identity) {
-          throw new Error('Echarts Instance Identity Required');
+          throw new Error("Echarts Instance Identity Required");
         }
 
         /**
@@ -64,26 +63,26 @@
         // 绘制实例对象
         $echarts.updateEchartsInstance(identity, vm.config);
 
-        $scope.$watchCollection('chart.config.title', function (current, prev) {
+        $scope.$watchCollection("chart.config.title", function (current, prev) {
           if (!angular.equals(current, prev)) {
             $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
-        $scope.$watchCollection('chart.config.series', function (current, prev) {
+        $scope.$watchCollection("chart.config.series", function (current, prev) {
           if (!angular.equals(current, prev)) {
             $echarts.updateEchartsInstance(identity, vm.config);
           }
         });
 
-        $scope.$on('$destroy', function () {
+        $scope.$on("$destroy", function () {
           instance.clear();
           instance.dispose();
           $echarts.removeEchartsInstance(identity);
           $dimension.removeEchartsDimension(element);
         });
       }],
-      controllerAs: 'chart'
-    }
+      controllerAs: "chart"
+    };
   }
 })(angular, echarts);

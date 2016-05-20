@@ -9,5 +9,5 @@
    *
    * @description - simple angular wrap for baidu echarts
    */
-  angular.module('echarts-ng', []);
+  angular.module("echarts-ng", []);
 })(angular);

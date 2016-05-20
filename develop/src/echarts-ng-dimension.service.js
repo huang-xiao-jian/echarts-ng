@@ -1,7 +1,7 @@
 (function (angular) {
   "use strict";
 
-  angular.module('echarts-ng').provider('$dimension', DimensionAssistanceProvider);
+  angular.module("echarts-ng").provider("$dimension", DimensionAssistanceProvider);
 
   /**
    * @ngdoc service
@@ -46,12 +46,12 @@
        */
       function shouldAdaptDimension(element, dimension) {
         if (!angular.isString(dimension)) {
-          console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified");
+          console.warn("The Pass Pixel Ratio Not Assign, Please Make Sure Height Already Specified"); //eslint-disable-line no-console
           return false;
         }
 
-        if (dimension.split(':').length !== 2) {
-          console.warn("The Pass Pixel Ratio Invalid, Please Verify Param");
+        if (dimension.split(":").length !== 2) {
+          console.warn("The Pass Pixel Ratio Invalid, Please Verify Param"); //eslint-disable-line no-console
           return false;
         }
 
@@ -73,12 +73,12 @@
       function adaptEchartsDimension(element, dimension) {
         var width
           , height
-          , ratio = dimension.split(':').reverse().map(Number);
+          , ratio = dimension.split(":").reverse().map(Number);
 
         width = element.clientWidth;
         height = width * ratio[0] / ratio[1];
 
-        element.style.height = height + 'px';
+        element.style.height = height + "px";
       }
 
       /**
@@ -91,7 +91,7 @@
        * @description - remove echarts dimension
        */
       function removeEchartsDimension(element) {
-        element.style.removeProperty ? element.style.removeProperty('height') : element.style.removeAttribute('height');
+        element.style.removeProperty ? element.style.removeProperty("height") : element.style.removeAttribute("height");
       }
 
       /**
@@ -133,7 +133,7 @@
             break;
         }
 
-        return base * length + 'px';
+        return base * length + "px";
       }
 
       /**

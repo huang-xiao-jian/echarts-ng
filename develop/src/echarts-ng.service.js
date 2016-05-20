@@ -1,7 +1,7 @@
 (function (angular) {
   "use strict";
   
-  angular.module('echarts-ng').provider('$echarts', EchartsAssistanceProvider);
+  angular.module("echarts-ng").provider("$echarts", EchartsAssistanceProvider);
   
   /**
    * @ngdoc service
@@ -14,30 +14,30 @@
     
     // base echarts options
     ctx.GLOBAL_OPTION = {
-      theme: 'macarons',
+      theme: "macarons",
       driftPalette: true,
       title: {
-        left: 'center',
-        top: 'top',
+        left: "center",
+        top: "top",
         padding: [20, 10, 10, 10]
       },
       grid: {
-        top: '15%',
-        left: '5%',
-        right: '5%',
-        bottom: '5%',
+        top: "15%",
+        left: "5%",
+        right: "5%",
+        bottom: "5%",
         containLabel: true
       },
-      backgroundColor: 'rgba(255, 255, 255, .5)',
+      backgroundColor: "rgba(255, 255, 255, .5)",
       legend: {
-        left: 'center',
-        top: 'top',
+        left: "center",
+        top: "top",
         padding: [20, 10, 10, 10]
       },
       tooltip: {
-        trigger: 'axis',
+        trigger: "axis",
         axisPointer: {
-          type: 'shadow'
+          type: "shadow"
         }
       }
     };
@@ -56,8 +56,10 @@
      *
      * @description - echarts-ng util method
      */
-    ctx.$get = ['$q', '$timeout', '$waterfall', '$dimension', function ($q, $timeout, $waterfall, $dimension) {
+    ctx.$get = ["$q", "$timeout", "$waterfall", "$dimension", function ($q, $timeout, $waterfall, $dimension) {
       var assistance = {};
+
+      /*global EchartsDecorativeMap*/
 
       /**
        * @ngdoc property
@@ -134,8 +136,8 @@
           if (assistance.storage.has(identity)) {
             deferred.resolve(assistance.storage.get(identity));
           } else {
-            console.error('Echarts Identity Not Registered, Please Verify The Process');
-            deferred.reject({errorDesc: 'Echarts Identity Not Registered, Please Verify The Process'});
+            console.error("Echarts Identity Not Registered, Please Verify The Process"); //eslint-disable-line no-console
+            deferred.reject({errorDesc: "Echarts Identity Not Registered, Please Verify The Process"});
           }
         }, 0);
 
@@ -170,7 +172,7 @@
           , decorativeConfig;
 
         if (angular.isUndefined(instance)) {
-          console.warn("The instance not registered. Probably the exception belongs to the directive wrap");
+          console.warn("The instance not registered. Probably the exception belongs to the directive wrap"); //eslint-disable-line no-console
           return;
         }
 
@@ -184,7 +186,7 @@
           instance.setOption(decorativeConfig);
         } else {
           //instance.clear();
-          instance.showLoading('default', {maskColor: 'rgba(255, 255, 255, 1)'});
+          instance.showLoading("default", {maskColor: "rgba(255, 255, 255, 1)"});
         }
       }
 

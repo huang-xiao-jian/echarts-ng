@@ -1,7 +1,7 @@
 (function (angular) {
   "use strict";
   
-  angular.module('echarts-ng').provider('$waterfall', WaterfallAssistanceProvider);
+  angular.module("echarts-ng").provider("$waterfall", WaterfallAssistanceProvider);
   
   /**
    * @ngdoc service
@@ -44,7 +44,7 @@
 
         var target = config.series[0];
 
-        return (angular.isArray(target.data) && angular.equals(target.type, 'waterfall'));
+        return (angular.isArray(target.data) && angular.equals(target.type, "waterfall"));
       }
 
       /**
@@ -62,11 +62,11 @@
 
         var setting = {
           tooltip: {
-            trigger: 'axis',
+            trigger: "axis",
             axisPointer: {
-              type: 'shadow'
+              type: "shadow"
             },
-            formatter: '{a1}: <br/> {b1}: {c1}'
+            formatter: "{a1}: <br/> {b1}: {c1}"
           }
         };
 
@@ -132,12 +132,12 @@
 
         var target = config.series[0]
           , extension = {
-            stack: 'waterfall',
-            type: 'bar',
+            stack: "waterfall",
+            type: "bar",
             label: {
               normal: {
                 show: true,
-                position: 'inside'
+                position: "inside"
               }
             }
           };
@@ -145,17 +145,17 @@
         angular.extend(target, extension);
 
         var helper = {
-          name: 'helper',
-          type: 'bar',
-          stack: 'waterfall',
+          name: "helper",
+          type: "bar",
+          stack: "waterfall",
           itemStyle: {
             normal: {
-              barBorderColor: 'rgba(0,0,0,1)',
-              color: 'rgba(0,0,0,0)'
+              barBorderColor: "rgba(0,0,0,1)",
+              color: "rgba(0,0,0,0)"
             },
             emphasis: {
-              barBorderColor: 'rgba(0,0,0,0)',
-              color: 'rgba(0,0,0,0)'
+              barBorderColor: "rgba(0,0,0,0)",
+              color: "rgba(0,0,0,0)"
             }
           },
           data: waterfall.calculateWaterfallFlow(target.data)
