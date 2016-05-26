@@ -2,7 +2,7 @@
   "use strict";
 
   /*global Map:true*/
-  window.EchartsDecorativeMap = Map || AdaptableMap;
+  if (!Map) window.Map = AdaptableMap;
 
   /**
    * @constructor AdaptableMap
