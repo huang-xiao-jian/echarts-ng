@@ -2,7 +2,7 @@
   "use strict";
 
   /*global Map:true*/
-  window.EchartsDecorativeMap = Map || AdaptableMap;
+  if (!Map) window.Map = AdaptableMap;
 
   /**
    * @constructor AdaptableMap
@@ -438,7 +438,7 @@
     
     // modify base echarts options
     ctx.setGlobalOption = function (option) {
-      angular.extend(ctx.GLOBAL_OPTION, option);
+      angular.merge(ctx.GLOBAL_OPTION, option);
     };
     
     /**
@@ -453,7 +453,7 @@
     ctx.$get = ["$q", "$timeout", "$waterfall", "$dimension", function ($q, $timeout, $waterfall, $dimension) {
       var assistance = {};
 
-      /*global EchartsDecorativeMap*/
+      /*global Map*/
 
       /**
        * @ngdoc property
@@ -463,7 +463,7 @@
        *
        * @description - storage for echarts instance, provide decorative shim avoid unexpected situation
        */
-      assistance.storage = new EchartsDecorativeMap();
+      assistance.storage = new Map();
       assistance.generateInstanceIdentity = generateInstanceIdentity;
       assistance.getEchartsGlobalOption = getEchartsGlobalOption;
       assistance.registerEchartsInstance = registerEchartsInstance;
