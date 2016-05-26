@@ -106,7 +106,7 @@ describe("echarts-ng $echarts service", function () {
     spyOn($waterfall, "adaptWaterfallSeries").and.returnValue({series: series});
     
     $echarts.updateEchartsInstance(identity, {});
-  
+
     expect(instance.setOption).toHaveBeenCalledWith({series: series});
   });
   
@@ -139,21 +139,30 @@ describe("echarts-ng $echarts service", function () {
 });
 
 describe("echarts-ng $echarts provider", function () {
-  var $echarts
-    , title = {
-      left: "center",
-      top: "top"
-    };
+  var $echarts;
+  var setter = {
+    tooltip: {
+      axisPointer: {
+        type: "cross"
+      }
+    }
+  };
+  var match = {
+    trigger: "axis",
+    axisPointer: {
+      type: "cross"
+    }
+  };
   
   beforeEach(module("echarts-ng", function ($echartsProvider) {
-    $echartsProvider.setGlobalOption({title: title});
+    $echartsProvider.setGlobalOption(setter);
   }));
   
   beforeEach(inject(function (_$echarts_) {
     $echarts = _$echarts_;
   }));
   
-  it("should extend default global option with shallow override", function () {
-    expect($echarts.getEchartsGlobalOption().title).toEqual(title);
+  it("should extend default global option with merge override", function () {
+    expect($echarts.getEchartsGlobalOption().tooltip).toEqual(match);
   });
 });
