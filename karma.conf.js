@@ -5,27 +5,27 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: "",
 
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ["jasmine"],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'develop/lib/jquery/dist/jquery.js',
-      'develop/lib/echarts/dist/echarts.js',
-      'develop/lib/angular/angular.js',
-      'develop/lib/angular-mocks/angular-mocks.js',
-      'develop/src/echarts-ng.shim.js',
-      'develop/src/echarts-ng.declare.js',
-      'develop/src/echarts-ng-waterfall.service.js',
-      'develop/src/echarts-ng-dimension.service.js',
-      'develop/src/echarts-ng.service.js',
-      'develop/src/echarts-ng.directive.js',
-      'test/**/*.spec.js'
+      "develop/lib/jquery/dist/jquery.js",
+      "develop/lib/echarts/dist/echarts.js",
+      "develop/lib/angular/angular.js",
+      "develop/lib/angular-mocks/angular-mocks.js",
+      "develop/src/echarts-ng.shim.js",
+      "develop/src/echarts-ng.declare.js",
+      "develop/src/echarts-ng-waterfall.service.js",
+      "develop/src/echarts-ng-dimension.service.js",
+      "develop/src/echarts-ng.service.js",
+      "develop/src/echarts-ng.directive.js",
+      "test/**/*.spec.js"
     ],
 
 
@@ -37,23 +37,23 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'develop/src/!(*shim).js': ['coverage']
+      "develop/src/!(*shim).js": ["coverage"]
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ["progress", "coverage"],
 
 
     coverageReporter: {
       // specify a common output directory
-      dir: 'coverage',
+      dir: "coverage",
       reporters: [
         // reporters not supporting the `file` property
-        { type: 'html', subdir: 'html' },
-        { type: 'lcov', subdir: 'lcov' }
+        { type: "html", subdir: "html" },
+        { type: "lcov", subdir: "lcov" }
       ]
     },
 
@@ -77,7 +77,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ["Chrome"],
 
 
     // Continuous Integration mode
@@ -87,5 +87,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultanous
     concurrency: Infinity
-  })
+  });
 };
