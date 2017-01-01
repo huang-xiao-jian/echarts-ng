@@ -4,7 +4,7 @@
  */
 import eslint from 'rollup-plugin-eslint';
 import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
+import ngAnnotate from 'rollup-plugin-ng-annotate';
 import babel from 'rollup-plugin-babel';
 
 export default {
@@ -14,19 +14,18 @@ export default {
       include: ['index.js', 'src/*.js', 'test/*.js']
     }),
     resolve({ jsnext: true, main: true }),
-    commonjs({
-      include: 'node_modules/@bornkiller/**',
-    }),
+    ngAnnotate(),
     babel()
   ],
-  moduleId: 'bk.echarts',
-  moduleName: 'bk.echarts',
-  external: ['echarts'],
+  moduleId: 'ng.echarts',
+  moduleName: 'ng.echarts',
+  external: ['echarts', 'angular'],
   globals: {
-    'echarts': 'echarts'
+    echarts: 'echarts',
+    angular: 'angular'
   },
   targets: [
-    { format: 'umd', dest: 'dist/bridge.bundle.js' },
-    { format: 'es', dest: 'dist/bridge.bundle.esm.js' }
+    { format: 'umd', dest: 'dist/echarts-ng.bundle.js' },
+    { format: 'es', dest: 'dist/echarts-ng.bundle.esm.js' }
   ]
 };
