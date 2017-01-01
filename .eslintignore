@@ -1,0 +1,6 @@
+# exclude document
+/docs
+
+# exclude production
+/dist
+/build

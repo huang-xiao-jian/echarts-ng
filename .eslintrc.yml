@@ -1,0 +1,28 @@
+env:
+  browser: true
+  es6: true
+  jasmine: true
+  node: true
+extends:
+  - 'eslint:recommended'
+plugins:
+  - angular
+parserOptions:
+  ecmaVersion: 6
+  sourceType: module
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
+rules:
+  indent:
+    - error
+    - 2
+    - SwitchCase: 1
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - always
