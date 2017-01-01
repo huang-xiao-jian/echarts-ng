@@ -4,3 +4,4 @@
 # exclude production
 /dist
 /build
+/example

@@ -25,7 +25,9 @@ export default {
     angular: 'angular'
   },
   targets: [
-    { format: 'umd', dest: 'dist/echarts-ng.bundle.js' },
-    { format: 'es', dest: 'dist/echarts-ng.bundle.esm.js' }
+    { format: 'iife', dest: 'dist/echarts-ng.bundle.js' },
+    { format: 'cjs', dest: 'dist/echarts-ng.bundle.common.js' },
+    { format: 'umd', dest: 'dist/echarts-ng.bundle.umd.js'},
+    { format: 'amd', dest: 'dist/echarts-ng.bundle.amd.js' }
   ]
 };
