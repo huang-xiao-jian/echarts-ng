@@ -5,6 +5,7 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <title>echarts-ng example</title>
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/lodash.js/4.17.3/lodash.min.js"></script>
   <script src="node_modules/angular/angular.js"></script>
   <script src="node_modules/echarts/dist/echarts.js"></script>
   <script src="node_modules/echarts/theme/vintage.js"></script>
@@ -28,7 +29,17 @@
                 ng-change="vm.handleThemeChange()"></select>
       </div>
       
-      <button class="btn btn-primary" ng-click="vm.toggleSwitchStatus()">切换连接</button>
+      <div class="form-group checkbox" style="margin-left: 2em;">
+        <label>切换图例选择</label>
+        <label class="checkbox-inline" ng-repeat="legend in vm.legends">
+          <input type="checkbox"
+                 ng-model="legend.selected"
+                 ng-change="vm.handleLegendChange(legend.description, legend.selected)">
+          {{ legend.description }}
+        </label>
+      </div>
+      
+      <button class="btn btn-primary" style="margin-left: 2em;" ng-click="vm.toggleSwitchStatus()">重连接</button>
     </form>
   </div>
   <div class="echarts-box" style="height: 550px;" echarts="vm.instance" ng-if="vm.show"></div>

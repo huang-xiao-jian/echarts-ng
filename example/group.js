@@ -6,10 +6,39 @@
   'use strict';
   
   angular.module('echarts-showcase', ['echarts-ng'])
-    .controller('ShowcaseController', ['$echarts', function ($echarts) {
+    .controller('ShowcaseController', ['$echarts', '$timeout', function ($echarts, $timeout) {
       this.themes = ['vintage', 'dark', 'macarons', 'infographic', 'shine', 'roma'];
       this.theme = 'vintage';
       this.show = true;
+      this.mediaOptions = [
+        {
+          option: {
+            legend: {
+              orient: 'horizontal',
+              left: 'center',
+              top: 'top'
+            },
+            grid: {
+              right: '10%'
+            }
+          }
+        },
+        {
+          query: {
+            maxWidth: 850
+          },
+          option: {
+            legend: {
+              orient: 'vertical',
+              right: 10,
+              top: '10%'
+            },
+            grid: {
+              right: '15%'
+            }
+          }
+        }
+      ];
       this.options = {
         tooltip: {
           trigger: 'axis'
@@ -68,16 +97,49 @@
         ]
       };
   
-      this.instance = $echarts.create(this.theme).setOption(this.options);
+      this.legends = [
+        { description: '邮件营销', selected: true },
+        { description: '联盟广告', selected: true },
+        { description: '视频广告', selected: true },
+        { description: '直接访问', selected: true },
+        { description: '搜索引擎', selected: true }
+      ];
+      
+      this.instance = $echarts.create(this.theme, {}, this.mediaOptions);
+      
+      this.instance
+        .showLoading()
+        .on('click', (event) => {
+          console.log(event);
+        })
+        .on('legendselectchanged', (event) => {
+          console.log(event);
+        });
+      
+      $timeout(() => {
+        this.instance.setOption(this.options).hideLoading();
+      }, 1200);
       
       this.handleThemeChange = () => {
-        console.log(this.theme);
         this.instance = $echarts.create(this.theme).setOption(this.options);
+      };
+      
+      this.handleLegendChange = (name, selected) => {
+        this.instance.dispatchAction({
+          type: selected ? 'legendSelect' : 'legendUnSelect',
+          name: name
+        })
       };
       
       this.toggleSwitchStatus = () => {
         this.show = !this.show;
       };
+
+      this.sync = _.debounce(() => {
+        this.instance.resize();
+      }, 100);
+
+      window.addEventListener('resize', this.sync);
     }]);
   
   angular.bootstrap(document.body, ['echarts-showcase'], { strictDi: true });
