@@ -35,7 +35,7 @@
   "scripts": {
     "prepublish": "rollup -c rollup.config.js",
     "test": "karma start --browsers Chrome",
-    "test-travis": "./node_modules/.bin/karma start karma.conf.js --browsers Firefox --single-run",
+    "test-travis": "karma start karma.conf.js --browsers Firefox --single-run",
     "lint": "eslint src"
   },
   "repository": {
