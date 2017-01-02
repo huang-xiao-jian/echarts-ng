@@ -4,7 +4,9 @@
   "description": "angularjs directive for Baidu echarts.",
   "main": "dist/echarts-ng.bundle.common.js",
   "jsnext:main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@bornkiller/echarts-bridge": "^0.5.0"
+  },
   "devDependencies": {
     "angular-mocks": "^1.6.1",
     "babel-preset-es2015-bk": "^1.4.0",
