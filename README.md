@@ -7,6 +7,9 @@
 
 百度`echarts`为优秀的图表库，在使用`angular`封装为指令的时候，发现了部分并不适用于自身项目的地方，在封装中做调整。https://github.com/bornkiller/echarts-ng
 
+## 版本变更
+新版本是完全一新的版本，文档暂时未更新，以下文档内容基于`0.3.13`，不建议继续使用。
+
 ## 运行环境
 + angularjs - 1.3+
 + echarts   - 3.0+
