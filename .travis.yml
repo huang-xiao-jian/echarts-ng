@@ -11,7 +11,6 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 install:
   - npm install;
-  - ./node_modules/.bin/bower install;
 script:
   - npm run test;
 after_success:
