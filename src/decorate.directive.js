@@ -19,10 +19,12 @@ export /* @ngInject */ function echartsDecorateDirective() {
        * @description - re-connect element when bridge changed
        */
       this.$onChanges = (changes) => {
+        // mark to avoid repeated connect operation
+        let isSubsequentChange = !changes.echarts.isFirstChange();
         let { currentValue, previousValue } = changes.echarts;
         
         previousValue.disconnect && previousValue.disconnect();
-        currentValue.connect($element[0]).replay();
+        isSubsequentChange && currentValue.connect($element[0]).replay();
       };
   
       this.$onDestroy = () => {
