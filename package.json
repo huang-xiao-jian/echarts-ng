@@ -30,6 +30,7 @@
     "echarts": "^3.0.0"
   },
   "scripts": {
+    "pre-publish": "rollup -c rollup.config.js",
     "test": "karma start --browsers Chrome",
     "test-travis": "karma start --browsers Firefox --single-run",
     "lint": "eslint src"
