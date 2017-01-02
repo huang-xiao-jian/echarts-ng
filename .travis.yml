@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - "4.0"
+  - "6.0"
 branches:
   only:
     - master
@@ -11,7 +11,8 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 install:
   - npm install;
+  - npm install echarts angular;
 script:
-  - npm run test;
+  - npm run-script test-travis;
 after_success:
   - npm install coveralls@2.10.0 && cat ./coverage/lcov/lcov.info | coveralls

@@ -6,6 +6,7 @@
   "jsnext:main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "angular-mocks": "^1.6.1",
     "babel-preset-es2015-bk": "^1.4.0",
     "eslint": "^3.12.2",
     "jasmine-core": "^2.5.2",
@@ -24,8 +25,13 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-watch": "^2.5.0"
   },
+  "peerDependencies": {
+    "angular": "^1.6.0",
+    "echarts": "^3.0.0"
+  },
   "scripts": {
-    "test": "karma start --browsers Firefox --single-run",
+    "test": "karma start --browsers Chrome",
+    "test-travis": "karma start --browsers Firefox --single-run",
     "lint": "eslint src"
   },
   "repository": {

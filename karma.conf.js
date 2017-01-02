@@ -1,59 +1,71 @@
 // Karma configuration
-// Generated on Fri May 13 2016 14:50:04 GMT+0800 (CST)
+// Generated on Tue Sep 20 2016 18:36:39 GMT+0800 (CST)
 
-module.exports = function(config) {
+const babel = require('rollup-plugin-babel');
+const istanbul = require('rollup-plugin-istanbul');
+const resolve = require('rollup-plugin-node-resolve');
+const ngAnnotate = require('rollup-plugin-ng-annotate');
+
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: "",
+    basePath: '',
 
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["jasmine"],
+    frameworks: ['jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      "develop/lib/jquery/dist/jquery.js",
-      "develop/lib/echarts/dist/echarts.js",
-      "develop/lib/angular/angular.js",
-      "develop/lib/angular-mocks/angular-mocks.js",
-      "develop/src/echarts-ng.shim.js",
-      "develop/src/echarts-ng.declare.js",
-      "develop/src/echarts-ng-waterfall.service.js",
-      "develop/src/echarts-ng-dimension.service.js",
-      "develop/src/echarts-ng.service.js",
-      "develop/src/echarts-ng.directive.js",
-      "test/**/*.spec.js"
+      'node_modules/echarts/dist/echarts.js',
+      'node_modules/angular/angular.js',
+      'node_modules/angular-mocks/angular-mocks.js',
+      'test/*.spec.js'
     ],
 
 
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "develop/src/!(*shim).js": ["coverage"]
+      'test/*.spec.js': ['rollup', 'sourcemap']
+    },
+
+    rollupPreprocessor: {
+      plugins: [
+        resolve({ jsnext: true, main: true }),
+        ngAnnotate(),
+        istanbul({
+          exclude: ['test/*.spec.js', 'node_modules/**/*']
+        }),
+        babel()
+      ],
+      external: ['echarts', 'angular'],
+      globals: {
+        echarts: 'echarts',
+        angular: 'angular'
+      },
+      format: 'iife',
+      sourceMap: 'inline'
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["progress", "coverage"],
-
+    reporters: ['coverage'],
 
     coverageReporter: {
-      // specify a common output directory
-      dir: "coverage",
+      dir: 'coverage',
       reporters: [
-        // reporters not supporting the `file` property
-        { type: "html", subdir: "html" },
-        { type: "lcov", subdir: "lcov" }
+        { type: 'html', subdir: 'html' },
+        { type: 'lcov', subdir: 'lcov' }
       ]
     },
 
@@ -77,7 +89,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ["Chrome"],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode
@@ -85,7 +97,7 @@ module.exports = function(config) {
     singleRun: false,
 
     // Concurrency level
-    // how many browser should be started simultanous
+    // how many browser should be started simultaneous
     concurrency: Infinity
   });
 };
