@@ -1,7 +1,7 @@
 {
   "name": "echarts-ng",
-  "version": "0.1.5",
-  "description": "Simple angularjs wrap for Baidu echarts.",
+  "version": "1.0.0",
+  "description": "angularjs directive for Baidu echarts.",
   "main": "dist/echarts-ng.bundle.common.js",
   "jsnext:main": "index.js",
   "dependencies": {},
@@ -30,7 +30,7 @@
     "echarts": "^3.0.0"
   },
   "scripts": {
-    "pre-publish": "rollup -c rollup.config.js",
+    "prepublish": "rollup -c rollup.config.js",
     "test": "karma start --browsers Chrome",
     "test-travis": "karma start --browsers Firefox --single-run",
     "lint": "eslint src"
