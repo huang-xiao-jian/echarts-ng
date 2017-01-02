@@ -16,8 +16,9 @@ export /*@ngInject*/ function echartsDecorateFactory() {
    *
    * @param {string} theme - echarts theme
    * @param {object} initOptions - echarts init options
+   * @param {object} mediaOptions - echarts media options
    */
-  function create(theme, initOptions) {
-    return Reflect.construct(Bridge, [theme, initOptions]);
+  function create(theme, initOptions, mediaOptions) {
+    return Reflect.construct(Bridge, [theme, initOptions, mediaOptions]);
   }
 }
