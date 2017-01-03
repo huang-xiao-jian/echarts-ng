@@ -1,6 +1,6 @@
 {
   "name": "echarts-ng",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-alpha.1",
   "description": "angularjs directive for Baidu echarts.",
   "main": "dist/echarts-ng.bundle.common.js",
   "jsnext:main": "index.js",
