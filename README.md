@@ -12,6 +12,7 @@
 
 + 更新表述参见 https://github.com/bornkiller/echarts-ng/issues/8
 + 简单案例参见 https://github.com/bornkiller/echarts-showcase
++ 实例`API`参见 https://github.com/bornkiller/echarts-bridge
 
 ## 运行环境
 + angularjs - 1.6.0+, 支持单向绑定，`life hook`即可
