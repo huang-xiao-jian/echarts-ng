@@ -23,6 +23,7 @@ module.exports = function (config) {
       'node_modules/echarts/dist/echarts.js',
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/es6-shim/es6-shim.js',
       'test/*.spec.js'
     ],
 
