@@ -8,7 +8,7 @@
 百度`echarts`为优秀的图表库，使用`angular`封装为指令。https://github.com/bornkiller/echarts-ng
 
 ## 版本变更
-新版本是完全一新的版本，老版本文档参照对应`tag`, 如`0.3.13`，不建议继续使用。更新表述参见 https://github.com/bornkiller/echarts-ng/issues/8。
+新版本是完全一新的版本，老版本文档参照对应`tag`, 如`0.3.13`，不建议继续使用。更新表述参见 https://github.com/bornkiller/echarts-ng/issues/8
 
 ## 运行环境
 + angularjs - 1.6.0+, 支持单向绑定，`life hook`即可
