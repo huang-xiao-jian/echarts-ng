@@ -13,6 +13,7 @@
 ## 运行环境
 + angularjs - 1.6.0+, 支持单向绑定，`life hook`即可
 + echarts   - 3.0.0+
++ es6-reflect - 实际使用中自行引入对应`babel-polyfill`即可
 
 ## FAQ
 + 实例容器高度缺失，会导致`echarts`绘制错误，并不会直接抛出。如果数据正常，绘制异常，务必检查高度问题。
@@ -26,7 +27,7 @@ npm install echarts-ng;
 ```
 
 ```js
-// 默认加载iife格式，也支持`amd`, `umd`, `commonjs`, `esm`等方式，加载对应文件即可
+// 默认加载`umd`格式，也支持`amd`, `iife`, `commonjs`, `esm`等方式，加载对应文件即可
 import 'echarts-ng';
 
 angular.module('application', ['echarts-ng']);
