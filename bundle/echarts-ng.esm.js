@@ -27,8 +27,8 @@ function echartsDecorateFactory() {
  * @description - echarts decorate directive
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
-/* @ngInject */
 
+/* @ngInject */
 function echartsDecorateDirective() {
   return {
     restrict: 'A',
@@ -57,6 +57,9 @@ function echartsDecorateDirective() {
         isSubsequentChange && currentValue.connect($element[0]).replay();
       };
 
+      /**
+       * @description - disconnect element before directive destroyed
+       */
       this.$onDestroy = function () {
         _this.echarts.disconnect();
       };
@@ -70,6 +73,7 @@ function echartsDecorateDirective() {
  * @description - decorate echarts for angularjs
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
+
 var ECHARTS_NG = 'echarts-ng';
 
 angular.module(ECHARTS_NG, []).factory('$echarts', echartsDecorateFactory).directive('echarts', echartsDecorateDirective);

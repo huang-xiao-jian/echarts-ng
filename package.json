@@ -1,6 +1,6 @@
 {
   "name": "echarts-ng",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-beta.1",
   "description": "angularjs directive for Baidu echarts.",
   "main": "bundle/echarts-ng.common.js",
   "jsnext:main": "bundle/echarts-ng.esm.js",
@@ -8,7 +8,7 @@
     "bundle"
   ],
   "dependencies": {
-    "echarts-bridge": "^0.5.0-alpha.1"
+    "echarts-bridge": "^0.5.0-beta.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.6.1",

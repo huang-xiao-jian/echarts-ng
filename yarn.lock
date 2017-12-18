@@ -1736,9 +1736,9 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
-echarts-bridge@^0.5.0-alpha.1:
-  version "0.5.0-alpha.1"
-  resolved "https://registry.npmjs.org/echarts-bridge/-/echarts-bridge-0.5.0-alpha.1.tgz#c719f3d8c80b4f8051ce1fdfe5784c90e59f6344"
+echarts-bridge@^0.5.0-beta.1:
+  version "0.5.0-beta.1"
+  resolved "https://registry.npmjs.org/echarts-bridge/-/echarts-bridge-0.5.0-beta.1.tgz#22e2d1c14957743ab8d5ea37ad48e870f544c811"
 
 ee-first@1.1.1:
   version "1.1.1"
