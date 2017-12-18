@@ -12,7 +12,7 @@
 
 1.0.0-beta.1
 
-+ 调整构建方式，仅输出 `umd`，`commonjs`，`esm` 风格文件;
++ 调整构建方式，仅输出 `commonjs`，`esm` 风格文件;
 + 保证反向兼容，`npm tag` 调整为 `beta`;
 
 1.0.0-alpha.1
@@ -28,19 +28,12 @@
 + 实例容器高度缺失，会导致 `echarts` 绘制错误，并不会直接抛出。如果数据正常，绘制异常，务必检查高度问题。
 + 在控制器，可以直接调用实例，因而可以使用 `connect`, `group` 等操作。
 + 暂时没有全局配置，所以实例之间相似的数据只能重复设定，后续会有解决方案。
-+ `React` 建议使用 `lifecycle hook`，直接使用 `echarts` 进行 `DOM` 操作；也可以考虑其他封装库；
++ `React` 建议使用 `lifecycle hook`，直接使用 `echarts` 进行 `DOM` 操作，也可以考虑其他封装库；
 
 ## 项目使用
 ```shell
 // 仅支持NPM，当前 beta 状态
 npm install echarts-ng@beta;
-```
-
-```js
-// 支持 `umd` 加载方式
-import 'echarts-ng';
-
-angular.module('application', ['echarts-ng']);
 ```
 
 ```js
