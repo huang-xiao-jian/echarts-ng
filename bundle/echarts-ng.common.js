@@ -35,8 +35,7 @@ function echartsDecorateFactory() {
  */
 /* @ngInject */
 
-echartsDecorateDirective.$inject = ['$q'];
-function echartsDecorateDirective($q) {
+function echartsDecorateDirective() {
   return {
     restrict: 'A',
     scope: {
