@@ -37,4 +37,4 @@ example/lib
 .idea
 .DS_Store
 dist
-
+bundle

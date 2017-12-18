@@ -21,6 +21,7 @@ rules:
   quotes:
     - error
     - single
+    - allowTemplateLiterals: true
   semi:
     - error
     - always
