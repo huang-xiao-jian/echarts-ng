@@ -1,0 +1,13 @@
+.showcase__header {
+  padding: 6px 8px;
+}
+
+.showcase__instance {
+  width: 850px;
+  height: 500px;
+  margin: 0 auto;
+}
+
+.showcase__instance + .showcase__instance {
+  margin-top: 15px;
+}
