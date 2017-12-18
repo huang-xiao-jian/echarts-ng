@@ -2,7 +2,6 @@
  * @description - echarts-ng switch theme dynamic
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
-'use strict';
 
 import echarts from 'echarts';
 
