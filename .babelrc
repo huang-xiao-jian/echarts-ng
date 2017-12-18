@@ -1,3 +1,20 @@
 {
-  "presets": ["es2015-bk"]
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "loose": true
+      }
+    ],
+    "stage-3"
+  ],
+  "plugins": [
+    [
+      "angularjs-annotate",
+      {
+        "explicitOnly": true
+      }
+    ]
+  ]
 }

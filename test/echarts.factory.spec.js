@@ -4,7 +4,7 @@
 'use strict';
 
 import { Bridge } from '@bornkiller/echarts-bridge';
-import { DECORATE_NAME } from '../index';
+import { DECORATE_NAME } from '../src/index';
 
 /* globals module:true, inject: true */
 describe('echarts factory', function () {

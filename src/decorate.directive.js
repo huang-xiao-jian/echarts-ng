@@ -4,7 +4,8 @@
  */
 'use strict';
 
-export /* @ngInject */ function echartsDecorateDirective() {
+/* @ngInject */
+export default function echartsDecorateDirective() {
   return {
     restrict: 'A',
     scope: {

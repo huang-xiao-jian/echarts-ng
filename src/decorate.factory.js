@@ -4,9 +4,10 @@
  */
 'use strict';
 
-import { Bridge } from '@bornkiller/echarts-bridge';
+import { Bridge } from 'echarts-bridge';
 
-export /*@ngInject*/ function echartsDecorateFactory() {
+/* @ngInject */
+export default function echartsDecorateFactory() {
   return {
     create
   };

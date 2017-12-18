@@ -5,13 +5,13 @@
 'use strict';
 
 import angular from 'angular';
-import { echartsDecorateFactory } from './src/decorate.factory';
-import { echartsDecorateDirective } from './src/decorate.directive';
+import echartsDecorateFactory  from './decorate.factory';
+import echartsDecorateDirective  from './decorate.directive';
 
-const DECORATE_NAME = 'echarts-ng';
+const ECHARTS_NG = 'echarts-ng';
 
-angular.module(DECORATE_NAME, [])
+angular.module(ECHARTS_NG, [])
   .factory('$echarts', echartsDecorateFactory)
   .directive('echarts', echartsDecorateDirective);
 
-export { DECORATE_NAME };
+export { ECHARTS_NG };

@@ -2,15 +2,20 @@
   "name": "echarts-ng",
   "version": "1.0.0-alpha.1",
   "description": "angularjs directive for Baidu echarts.",
-  "main": "dist/echarts-ng.bundle.common.js",
-  "jsnext:main": "index.js",
+  "main": "bundle/echarts-ng.common.js",
+  "jsnext:main": "bundle/echarts-ng.esm.js",
+  "files": [
+    "bundle"
+  ],
   "dependencies": {
-    "@bornkiller/echarts-bridge": "^0.5.0"
+    "echarts-bridge": "^0.5.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.6.1",
-    "babel-preset-es2015-bk": "^1.4.0",
-    "es6-shim": "^0.35.2",
+    "babel-core": "^6.26.0",
+    "babel-plugin-angularjs-annotate": "^0.8.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
     "eslint": "^3.12.2",
     "jasmine-core": "^2.5.2",
     "karma": "^1.3.0",
@@ -20,14 +25,12 @@
     "karma-jasmine": "^1.0.2",
     "karma-rollup-preprocessor": "^3.0.1",
     "karma-sourcemap-loader": "^0.3.7",
-    "rollup": "^0.36.0",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^6.0.0",
-    "rollup-plugin-eslint": "^3.0.0",
-    "rollup-plugin-istanbul": "^1.1.0",
-    "rollup-plugin-ng-annotate": "^0.3.0",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-watch": "^2.5.0"
+    "rollup": "^0.52.2",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-eslint": "^4.0.0",
+    "rollup-plugin-istanbul": "^2.0.0",
+    "rollup-plugin-node-resolve": "^3.0.0"
   },
   "peerDependencies": {
     "angular": "^1.6.0",

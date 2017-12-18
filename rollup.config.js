@@ -1,33 +1,33 @@
 /**
- * @description - observable package rollup configuration
- * @author - bornkiller <hjj491229492@hotmail.com>
+ * @description - rollup configuration
+ * @author - huang.jian <hjj491229492@hotmail.com>
  */
-import eslint from 'rollup-plugin-eslint';
-import resolve from 'rollup-plugin-node-resolve';
-import ngAnnotate from 'rollup-plugin-ng-annotate';
-import babel from 'rollup-plugin-babel';
 
-export default {
-  entry: 'index.js',
+const babel = require('rollup-plugin-babel');
+const eslint = require('rollup-plugin-eslint');
+const resolve = require('rollup-plugin-node-resolve');
+
+module.exports = {
+  input: 'src/index.js',
   plugins: [
     eslint({
-      include: ['index.js', 'src/*.js', 'test/*.js']
+      include: ['src/*.js']
     }),
     resolve({ jsnext: true, main: true }),
-    ngAnnotate(),
-    babel()
+    babel({
+      exclude: ['**/*.css', '**/*.scss'],
+      runtimeHelpers: true
+    })
   ],
-  moduleId: 'ng.echarts',
-  moduleName: 'ng.echarts',
-  external: ['echarts', 'angular'],
+  external: (id) => {
+    return ['echarts', 'angular', 'babel-runtime'].some((name) => id.startsWith(name));
+  },
   globals: {
     echarts: 'echarts',
     angular: 'angular'
   },
-  targets: [
-    { format: 'iife', dest: 'dist/echarts-ng.bundle.js' },
-    { format: 'cjs', dest: 'dist/echarts-ng.bundle.common.js' },
-    { format: 'umd', dest: 'dist/echarts-ng.bundle.umd.js'},
-    { format: 'amd', dest: 'dist/echarts-ng.bundle.amd.js' }
+  output: [
+    { file: 'bundle/echarts-ng.common.js', format: 'cjs' },
+    { file: 'bundle/echarts-ng.esm.js', format: 'es' }
   ]
 };
