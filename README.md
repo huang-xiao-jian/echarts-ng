@@ -14,6 +14,7 @@
 
 + 调整构建方式，仅输出 `commonjs`，`esm` 风格文件;
 + 保证反向兼容，`npm tag` 调整为 `beta`;
++ `echarts-bridge` 调整为 `global npm scope`，剔除个人前缀；
 
 1.0.0-alpha.1
 
